@@ -16,6 +16,14 @@ def load_corpus(file_name, pandas=False):
             neighborhood_names = file.readlines()    
         refined_name_list = [name.strip() for name in neighborhood_names]
         return refined_name_list
+    
+
+def create_corpus(file_name, data):
+    # Process the data
+    with open(file_name, "w") as file:
+        for item in data:
+            file.write(item + "\n")
+    print(f"File '{file_name}' has been created.")
 
 
 def lowercase_conversion(text_str):
@@ -25,6 +33,12 @@ def lowercase_conversion(text_str):
 def remove_punctuation(text_str):
     punctuation = string.punctuation 
     return text_str.translate(str.maketrans('', '', punctuation))
+
+
+def remove_extra_spaces(text_str):
+    words = text_str.split()
+    cleaned_text = ' '.join(words)
+    return cleaned_text
 
 
 def standard_tokenization(text_str):
@@ -42,7 +56,7 @@ def word_correction_levenshtein(word, word_corpus):
     return temp
 
 
-sample1 = 'House  # C-38,  Block  8 , Gulshan-e-Iqbal, Karachi'
+sample1 = 'House # C-38, Block 8, Gulshan-e-Iqbal, Karachi'
 
 # ans = lowercase_conversion(sample1)
 # ans = remove_punctuation(ans)
