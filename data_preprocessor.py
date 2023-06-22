@@ -1,4 +1,8 @@
 # Stage 1: Uniformaty - converting to lowercase and eradicating whitespaces
+# Stage 2: Standardization of Abbreviations
+# Stage 3: Address Parsing and Normalization
+# Stage 4: Spelling Correction - using Levenshtein distance
+# Stage 5: Manual Review & percentage accuracy
 
 # imports
 import string
@@ -54,6 +58,13 @@ def word_correction_levenshtein(word, word_corpus):
 
     # return temp[0][1]
     return temp
+
+
+def standard_abbreviations_fix(address_str, abbreviation_mapping):
+    words = address_str.split()
+    standardized_words = [abbreviation_mapping.get(word, word) for word in words]
+    standardized_address = ' '.join(standardized_words)
+    return standardized_address
 
 
 sample1 = 'House # C-38, Block 8, Gulshan-e-Iqbal, Karachi'
