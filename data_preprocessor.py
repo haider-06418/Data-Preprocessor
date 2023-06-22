@@ -2,9 +2,9 @@
 
 # imports
 import string
-from nltk.tokenize import WhitespaceTokenizer
 from nltk.tokenize import word_tokenize
 import pandas as pd
+from nltk.metrics.distance import edit_distance
 
 
 def load_corpus(file_name, pandas=False):
@@ -31,6 +31,17 @@ def standard_tokenization(text_str):
     return word_tokenize(text_str)
 
 
+def word_correction_levenshtein(word, word_corpus):
+    temp = [(edit_distance(word, w),w) for w in word_corpus]
+    # return sorted(temp, key = lambda val:val[0])[0][1]
+
+    if len(temp) > 1: 
+        temp = [min(temp, key=lambda t: t[0])]
+
+    # return temp[0][1]
+    return temp
+
+
 sample1 = 'House  # C-38,  Block  8 , Gulshan-e-Iqbal, Karachi'
 
 # ans = lowercase_conversion(sample1)
@@ -43,4 +54,11 @@ sample1 = 'House  # C-38,  Block  8 , Gulshan-e-Iqbal, Karachi'
 
 fname = "karachi_neighbourhoods.txt"
 
-# levintiaion distance functions, indiviauals and for lists
+correct_words = ['gulshan e hadeed', 'gulshan e iqbal', 'defence', 'clifton', 'meher plaza', 'al murtaza heights', 'al murtaza height']
+
+incorrect_words= ['gulshen iqbal', 'defnse', 'klifton', 'mehar plaza', 'al murteza heights']
+
+
+for word in incorrect_words:
+    print(word_correction_levenshtein(word, correct_words))
+
