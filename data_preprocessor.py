@@ -41,15 +41,22 @@ def lowercase_conversion(text_str):
     return text_str.lower()
 
 
-def remove_punctuation(text_str):
-    punctuation = string.punctuation 
+def remove_punctuation(text_str, commas = False):
+    if commas == True:
+        punctuation = string.punctuation.replace(",", "")
+    else:
+        punctuation = string.punctuation 
     return text_str.translate(str.maketrans('', '', punctuation))
 
 
-def remove_extra_spaces(text_str):
-    words = text_str.split()
-    cleaned_text = ' '.join(words)
-    return cleaned_text
+def remove_extra_spaces(text_str, allspaces = False):
+    if allspaces == True:
+        cleaned_text = text_str.replace(" ", "")
+        return cleaned_text
+    else:
+        words = text_str.split()
+        cleaned_text = ' '.join(words)
+        return cleaned_text
 
 
 def standard_tokenization(text_str):
@@ -82,13 +89,13 @@ def check_address_type(address):
     apartment_found = any(keyword in address for keyword in apartment_keywords)
 
     if house_found and apartment_found:
-        return 'Both House and Apartment'
+        return 'both House and Apartment'
     elif house_found:
-        return 'House'
+        return 'house'
     elif apartment_found:
-        return 'Apartment'
+        return 'apartment'
     else:
-        return 'Unknown'
+        return 'unknown'
 
 
 sample1 = 'House # C-38, Block 8, Gulshan-e-Iqbal, Karachi'
