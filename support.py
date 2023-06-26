@@ -7,28 +7,31 @@ sample3 = "House No. 123, St. 5, Phase 7, DHA"
 abbreviations = data_preprocessor.load_json("abbreviations.json")
 
 
-def check_address_type(address):
-    house_keywords = ['house no', 'house number', 'house #', 'house']
-    apartment_keywords = ['flat no', 'flat number', 'flat #', 'flat', 'apartment', 'building']
+def address_tokenize(address_str, address_type):
+    if address_type == 'both House and Apartment':
+        pass 
+    elif address_type == 'house':
+        pass
+    elif address_type == 'apartment':
+        pass 
+    elif address_type == 'unknown':
+        pass
 
-    house_found = any(keyword in address for keyword in house_keywords)
-    apartment_found = any(keyword in address for keyword in apartment_keywords)
-
-    if house_found and apartment_found:
-        return 'Both House and Apartment'
-    elif house_found:
-        return 'House'
-    elif apartment_found:
-        return 'Apartment'
-    else:
-        return 'Unknown'
-
+# add similar conditional parameter to standart tokenzie function as well
+def tokenize_address(address):
+    tokens = address.split(",")
+    return tokens
 
 
-addy = data_preprocessor.lowercase_conversion(sample1)
+lowered_address = data_preprocessor.lowercase_conversion(sample3)
+standardized_address = data_preprocessor.remove_punctuation(lowered_address, True)
+standardized_address = data_preprocessor.standard_abbreviations_fix(standardized_address, abbreviations)
+standardized_address = data_preprocessor.remove_extra_spaces(standardized_address, True)
+address_type = data_preprocessor.check_address_type(standardized_address)
 
-standardized_address = data_preprocessor.standard_abbreviations_fix(addy, abbreviations)
+print(standardized_address)
 
-addy_type = check_address_type(standardized_address)
+# print(data_preprocessor.standard_tokenization(standardized_address))
+print(tokenize_address(standardized_address))
 
-print(addy_type)
+print(data_preprocessor.check_address_type(standardized_address))
