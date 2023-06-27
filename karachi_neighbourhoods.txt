@@ -10,7 +10,7 @@ agra taj colony
 ahsanabad
 aisha manzil
 akhtar colony
-al-falah society
+alfalah society
 allama banuri town
 allama iqbal colony
 ancholi
@@ -64,7 +64,7 @@ dhoraji colony
 drigh colony
 essa nagri
 faisal colony
-farooq-e-azam
+farooqeazam
 fatima jinnah colony
 federal b area
 firdous colony
@@ -97,18 +97,18 @@ green park city
 gujrat colony
 gujro
 gulbahar
-gulistan-e-johar
-gulistan-e-zafar
-gulshan-e-amna
-gulshan-e-ghazi
-gulshan-e-iqbal
-gulshan-e-maymar
-gulshan-e-osman
-gulshan-e-saeed
-gulshan-e-sheraz
-gulshan-e-sikandarabad
+gulistanejohar
+gulistanezafar
+gulshaneamna
+gulshaneghazi
+gulshaneiqbal
+gulshanemaymar
+gulshaneosman
+gulshanesaeed
+gulshanesheraz
+gulshanesikandarabad
 gulzar colony
-gulzar-e-hijri
+gulzarehijri
 haji ali goth
 haji camp
 hakim ahsan
@@ -129,7 +129,7 @@ islam pura
 islamia colony
 islamnagar
 ittehad town
-jafar-e-tayyar
+jafaretayyar
 jahanabad
 jalalabad
 jamali colony
@@ -147,7 +147,7 @@ khandu goth
 kharadar
 khiprianwala island
 khoso goth
-khuda-ki-basti incremental development scheme
+khudakibasti incremental development scheme
 kokan colony
 kokan cooperative housing society
 korangi
@@ -159,8 +159,8 @@ lasbela
 liaquatabad
 lyari
 machar colony
-madina colony, new karachi town
-madina colony, orangi town
+madina colony new karachi town
+madina colony orangi town
 madrasi para
 mahmudabad
 manghopir
@@ -217,7 +217,7 @@ qaim khani
 qasba colony
 qasimabad
 qayyumabad
-rafah-e-aam society
+rafaheaam society
 ragiwara
 rais goth
 raita plot
