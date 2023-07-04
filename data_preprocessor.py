@@ -12,16 +12,19 @@ import pandas as pd
 from nltk.metrics.distance import edit_distance
 
 
-def load_corpus(file_name, pandas=False):
+def load_corpus(file_name, pandas=False, header = False):
     if pandas==True:
-        df = pd.read_csv(file_name, sep="\t", header=None, names=["Neighborhood"])
+        if header == False:
+            df = pd.read_csv(file_name, sep="\t", header=None, names=["Neighborhood"])
+        else:
+            df = pd.read_csv(file_name, encoding='latin1')
         return df
     else:
         with open(file_name, "r") as file:
             neighborhood_names = file.readlines()    
         refined_name_list = [name.strip() for name in neighborhood_names]
         return refined_name_list
-    
+
 
 def create_corpus(file_name, data):
     # Process the data
@@ -44,6 +47,8 @@ def lowercase_conversion(text_str):
 def remove_punctuation(text_str, commas = False):
     if commas == True:
         punctuation = string.punctuation.replace(",", "")
+        # punctuation = punctuation.replace("#", "")
+        # punctuation = punctuation.replace("-", "")
     else:
         punctuation = string.punctuation 
     return text_str.translate(str.maketrans('', '', punctuation))
@@ -59,8 +64,12 @@ def remove_extra_spaces(text_str, allspaces = False):
         return cleaned_text
 
 
-def standard_tokenization(text_str):
-    return word_tokenize(text_str)
+def standard_tokenization(text_str, space=False):
+    if space == True:
+        return word_tokenize(text_str)
+    else:
+        tokens = text_str.split(",")
+        return tokens
 
 
 def word_correction_levenshtein(word, word_corpus):
@@ -83,13 +92,13 @@ def standard_abbreviations_fix(address_str, abbreviation_mapping):
 
 def check_address_type(address):
     house_keywords = ['house no', 'house number', 'house #', 'house']
-    apartment_keywords = ['flat no', 'flat number', 'flat #', 'flat', 'apartment', 'building']
+    apartment_keywords = ['flat no', 'flat number', 'flat #', 'flat', 'apartment', 'building', 'suite']
 
     house_found = any(keyword in address for keyword in house_keywords)
     apartment_found = any(keyword in address for keyword in apartment_keywords)
 
     if house_found and apartment_found:
-        return 'both House and Apartment'
+        return 'apartment'
     elif house_found:
         return 'house'
     elif apartment_found:
@@ -99,14 +108,10 @@ def check_address_type(address):
 
 
 sample1 = 'House # C-38, Block 8, Gulshan-e-Iqbal, Karachi'
+sample2 = 'House No. 123, Street 5, Phase 7, DHA, Karachi'
+sample3 = "House No. 123, St. 5, Phase 7, DHA, Karachi"
 
-# ans = lowercase_conversion(sample1)
-# ans = remove_punctuation(ans)
-
-# print(lowercase_conversion(ans))
-
-# ans = standard_tokenization(sample1)
-# print(ans)
+abbreviations = load_json('abbreviations.json')
 
 fname = "karachi_neighbourhoods.txt"
 
@@ -114,8 +119,19 @@ correct_words = ['gulshan e hadeed', 'gulshan e iqbal', 'defence', 'clifton', 'm
 
 incorrect_words= ['gulshen iqbal', 'defnse', 'klifton', 'mehar plaza', 'al murteza heights']
 
-abbreviations = load_json('abbreviations.json')
 
 # for word in incorrect_words:
 #     print(word_correction_levenshtein(word, correct_words))
 
+
+# khi_areas = load_corpus(fname)
+
+# u1 = []
+
+# for item in khi_areas:
+#     t1 = lowercase_conversion(item)
+#     t2 = remove_punctuation(t1)
+#     t3 = remove_extra_spaces(t2)
+#     u1.append(t3)
+
+# create_corpus(fname, u1)
