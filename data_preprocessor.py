@@ -34,6 +34,14 @@ def create_corpus(file_name, data):
     print(f"File '{file_name}' has been created.")
 
 
+def create_dataframe(columns, data=False):
+    if data == True:
+        df = pd.DataFrame(data, columns=columns)
+    else:
+        df = pd.DataFrame(columns=columns)
+    return df
+
+
 def load_json(file_name):
     with open(file_name, 'r') as file:
         dictionary = json.load(file)
@@ -91,7 +99,7 @@ def standard_abbreviations_fix(address_str, abbreviation_mapping):
 
 
 def check_address_type(address):
-    house_keywords = ['house no', 'house number', 'house #', 'house']
+    house_keywords = ['house no', 'house number', 'house #', 'house', 'plot']
     apartment_keywords = ['flat no', 'flat number', 'flat #', 'flat', 'apartment', 'building', 'suite']
 
     house_found = any(keyword in address for keyword in house_keywords)
