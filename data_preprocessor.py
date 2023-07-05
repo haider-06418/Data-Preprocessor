@@ -7,6 +7,7 @@
 # imports
 import string
 import json
+import re
 from nltk.tokenize import word_tokenize
 import pandas as pd
 from nltk.metrics.distance import edit_distance
@@ -70,6 +71,12 @@ def remove_extra_spaces(text_str, allspaces = False):
         words = text_str.split()
         cleaned_text = ' '.join(words)
         return cleaned_text
+    
+
+def add_spaces_with_punctuation(sentence):
+    punctuation_pattern = r'([{}])'.format(re.escape(string.punctuation))
+    spaced_sentence = re.sub(punctuation_pattern, r' \1 ', sentence)
+    return spaced_sentence
 
 
 def standard_tokenization(text_str, space=False):
@@ -92,6 +99,7 @@ def word_correction_levenshtein(word, word_corpus):
 
 
 def standard_abbreviations_fix(address_str, abbreviation_mapping):
+    address_str = add_spaces_with_punctuation(address_str)
     words = address_str.split()
     standardized_words = [abbreviation_mapping.get(word.translate(str.maketrans('', '', string.punctuation)), word) for word in words]
     standardized_address = ' '.join(standardized_words)
