@@ -22,16 +22,21 @@ fname = 'data/khi_tickets_2022.csv'
 
 df_complete = data_preprocessor.load_corpus(fname, pandas = True, header = True)
 
+# df_complete = df_complete.reset_index(drop=True)
+
 df = df_complete.drop(columns=['Title', 'Created', 'Close Time', 'Queue'], axis=1)
 
-
+df = df.reset_index(drop=True)
 
 # print(df['Address'][0:5])
 
-test = df['Address'][0:10]
+test = df['Address'][150:165]
 
-# # for ady in test:
-# #     print(ady)
+print(test)
+
+# for ady in test:
+#     print(ady)
+
 
 # for i in range(len(test)):
 #     info = pre_processing(test[i])
