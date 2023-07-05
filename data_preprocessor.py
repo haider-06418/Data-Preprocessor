@@ -34,8 +34,8 @@ def create_corpus(file_name, data):
     print(f"File '{file_name}' has been created.")
 
 
-def create_dataframe(columns, data=False):
-    if data == True:
+def create_dataframe(columns, data = None, datacheck=False):
+    if datacheck == True:
         df = pd.DataFrame(data, columns=columns)
     else:
         df = pd.DataFrame(columns=columns)
@@ -93,14 +93,14 @@ def word_correction_levenshtein(word, word_corpus):
 
 def standard_abbreviations_fix(address_str, abbreviation_mapping):
     words = address_str.split()
-    standardized_words = [abbreviation_mapping.get(word, word) for word in words]
+    standardized_words = [abbreviation_mapping.get(word.translate(str.maketrans('', '', string.punctuation)), word) for word in words]
     standardized_address = ' '.join(standardized_words)
     return standardized_address
 
 
 def check_address_type(address):
-    house_keywords = ['house no', 'house number', 'house #', 'house', 'plot']
-    apartment_keywords = ['flat no', 'flat number', 'flat #', 'flat', 'apartment', 'building', 'suite']
+    house_keywords = ['house', 'house no', 'house number', 'house #', 'plot']
+    apartment_keywords = ['flat', 'flat no', 'flat number', 'flat #', 'apartment', 'building', 'suite']
 
     house_found = any(keyword in address for keyword in house_keywords)
     apartment_found = any(keyword in address for keyword in apartment_keywords)
