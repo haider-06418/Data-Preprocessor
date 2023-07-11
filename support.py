@@ -30,28 +30,19 @@ samples = [' House # F-37 Off, Khayaban-e-Iqbal, Block 8, Clifton, Karachi ',
            ' House # R-11/1, Khayaban e Sadi, Phase 7, Defence, Karachi ']
 
 
-# tokenized_address = data_preprocessor.standard_tokenization(sample4) 
-# remaining_address = [' Building All Blocks', ' Fatima Tower', ' Block 3']
-# ['Apartment/Suite# 404 4th Floor', ' Building All Blocks', ' Fatima Tower', ' Jamaludin Afghani Rd', ' Block 3', ' PECHS', ' Karachi']
-# word = ' Block 3'
-
 # sample5 = ' House # 82-B ,1st Floor, 21st Street, Khayaban e badar, Phase 6, Defence, Karachi ',
 
-sample6 = ' Apartment/Suite# 409 4th fl, Building All Blocks, Sahil Promenade, Khayaban e Sadi, Block 3, Clifton, Karachi '
+# sample6 = ' Apartment/Suite# 409 4th fl, Building All Blocks, Sahil Promenade, Khayaban e Sadi, Block 3, Clifton, Karachi '
 
-remaining_address = [' Building All Blocks', ' Sahil Promenade', ' Khayaban e Sadi', ' Block 3']
-# remaining_address = [' Building All Blocks', ' Sahil Promenade', ' Khayaban e Sadi']
-# remaining_address = [' Khayaban e Sadi', ' Block 3']
-# remaining_address = [' Building All Blocks', ' Sahil Promenade']
-
-data = {'Ticket #': [], 'Type': [], 'House #': [], 'Apartment #': [], 'Building #': [], 'Building Name': [], 'Street Number/Name': [], 'Area & Sub Area': [], 'Neighbourhood': [], 'City': []}
+# remaining_address = [' Building All Blocks', ' Sahil Promenade', ' Khayaban e Sadi', ' Block 3']
+# remaining_address2 = [' Building All Blocks', ' Sahil Promenade', ' Khayaban e Sadi']
+# remaining_address3 = [' Khayaban e Sadi', ' Block 3']
+# remaining_address4 = [' Building All Blocks', ' Sahil Promenade']
 
 
-def probabilistic_identifiers(sample_address):
+def probabilistic_identifiers(sample_address, remaining_address):
     tokenized_address = data_preprocessor.standard_tokenization(sample_address) 
     reference_tokenized_address = list(tokenized_address)
-
-    # to_place = len(remaining_address)
 
     index_p_scores = []
     count = 0
@@ -62,28 +53,18 @@ def probabilistic_identifiers(sample_address):
         index_p_scores.append((count, index_percentage))
         count += 1
 
-    # for score in index_p_scores:
-    #     if score < 50:
-    #         if score == sorted(index_p_scores)[0]:
-    #             return 1
+    print(index_p_scores)
 
     potienal_area = [(index, score) for index, score in index_p_scores if score > 50]
-
     remaining_fields = [(index, score) for index, score in index_p_scores if score <= 50]
 
     if len(remaining_fields) >= 2:
-
         max_score_index = max(remaining_fields, key=lambda x: x[1])[0]
         potienal_building_name_tuple = remaining_fields.pop(max_score_index)
         potienal_building_name = list()
         potienal_building_name.append(potienal_building_name_tuple)
 
         potienal_building_number = list(remaining_fields)
-
-        # if len(remaining_fields) == 1:
-        #     potienal_building_number = list(remaining_fields.pop())
-        # else:
-        #     potienal_building_number = list(remaining_fields)
     
     elif len(remaining_fields) == 1:
         potienal_building_name = list(remaining_fields)
@@ -91,41 +72,61 @@ def probabilistic_identifiers(sample_address):
     else:
         potienal_building_name, potienal_building_number = [], []
 
-
-    # print(potienal_area)
-    # print(potienal_building_name)
-    # print(potienal_building_number)
-
-    # if len(remaining_fields) < 2:
-
-    # return index_p_scores
-
     areas_indexes = [ip_tuple[0] for ip_tuple in potienal_area]
     building_name_indexes = [ip_tuple[0] for ip_tuple in potienal_building_name]
     building_number_indexes = [ip_tuple[0] for ip_tuple in potienal_building_number]
 
-    # return potienal_area, potienal_building_name, potienal_building_number
+
     return areas_indexes, building_name_indexes, building_number_indexes
 
 
-# print(probabilistic_identifiers(sample6))
+# print(probabilistic_identifiers(sample6, remaining_address))
 
-ai, bni, bnui = probabilistic_identifiers(sample6)
+sample7 = 'Apartment/Suite# Flat 204, Building All Blocks, Pardesi Green Land Apartments, 8th Street, Bath Island, Clifton, Karachi'
+remaining_address = [' Building All Blocks', ' Pardesi Green Land Apartments', ' Bath Island']
 
+ai, bni, bnui = probabilistic_identifiers(sample7, remaining_address)
 print('Area Index: ', ai)
 print('Building Name Index:', bni)
 print('Building Number Index: ', bnui)
 
 
+def test(data, p_area_index, tokenized_address):
+    if len(p_area_index) > 0:
+            if data['Area & Sub Area'] != ['None']:
+                for index in p_area_index:
+                    data['Area & Sub Area'].append(tokenized_address[index].strip())
+                value_lst = data['Area & Sub Area']
+                joined_string = ', '.join(value_lst)
+                data['Area & Sub Area'] = [joined_string.strip()]
+            else:
+                data['Area & Sub Area'] = []
+                for index in p_area_index:
+                    data['Area & Sub Area'].append(tokenized_address[index].strip())
+                value_lst = data['Area & Sub Area']
+                joined_string = ', '.join(value_lst)
+                data['Area & Sub Area'] = [joined_string.strip()]
 
+    for index in sorted(p_area_index, reverse=True):
+        tokenized_address.pop(index)
+
+    print(tokenized_address)
+    return data
+
+data = {'Ticket #': [], 'Type': [], 'House #': [], 'Apartment #': [], 'Building #': [], 'Building Name': [], 'Street Number/Name': [], 'Area & Sub Area': [], 'Neighbourhood': [], 'City': []}
+# data = {'Ticket #': [], 'Type': [], 'House #': [], 'Apartment #': [], 'Building #': [], 'Building Name': [], 'Street Number/Name': [], 'Area & Sub Area': ['Block 3'], 'Neighbourhood': [], 'City': []}
+
+# ai, bni, bnui = probabilistic_identifiers(sample6, remaining_address)
+# print(test(data, ai, remaining_address))
+
+# ai, bni, bnui = probabilistic_identifiers(sample6, remaining_address2)
+# print(test(data, ai, remaining_address2))
+
+# ai, bni, bnui = probabilistic_identifiers(sample6, remaining_address3)
+# print(test(data, ai, remaining_address3))
+
+# ai, bni, bnui = probabilistic_identifiers(sample6, remaining_address4)
+# print(test(data, ai, remaining_address4))
 
 
 # lst = [(0, 28.57142857142857), (1, 42.857142857142854), (2, 57.14285714285714)]
-
-# lowest_score_index = min(lst, key=lambda x: x[1])[0]
-
-# print(lowest_score_index) 
-
-# max_score_index = max(lst, key=lambda x: x[1])[0]
-
-# print(max_score_index) 
