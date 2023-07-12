@@ -123,31 +123,3 @@ def check_address_type(address):
         return 'unknown'
 
 
-sample1 = 'House # C-38, Block 8, Gulshan-e-Iqbal, Karachi'
-sample2 = 'House No. 123, Street 5, Phase 7, DHA, Karachi'
-sample3 = "House No. 123, St. 5, Phase 7, DHA, Karachi"
-
-abbreviations = load_json('abbreviations.json')
-
-fname = "karachi_neighbourhoods.txt"
-
-correct_words = ['gulshan e hadeed', 'gulshan e iqbal', 'defence', 'clifton', 'meher plaza', 'al murtaza heights', 'al murtaza height']
-
-incorrect_words= ['gulshen iqbal', 'defnse', 'klifton', 'mehar plaza', 'al murteza heights']
-
-
-# for word in incorrect_words:
-#     print(word_correction_levenshtein(word, correct_words))
-
-
-# khi_areas = load_corpus(fname)
-
-# u1 = []
-
-# for item in khi_areas:
-#     t1 = lowercase_conversion(item)
-#     t2 = remove_punctuation(t1)
-#     t3 = remove_extra_spaces(t2)
-#     u1.append(t3)
-
-# create_corpus(fname, u1)
