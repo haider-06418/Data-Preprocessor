@@ -30,7 +30,7 @@ samples = [' House # F-37 Off, Khayaban-e-Iqbal, Block 8, Clifton, Karachi ',
            ' House # R-11/1, Khayaban e Sadi, Phase 7, Defence, Karachi ']
 
 
-# sample5 = ' House # 82-B ,1st Floor, 21st Street, Khayaban e badar, Phase 6, Defence, Karachi ',
+# sample5 = ' House # 82-B ,1st Floor, 21st Street, Khayaban e badar, Phase 6, Defence, Karachi '
 
 # sample6 = ' Apartment/Suite# 409 4th fl, Building All Blocks, Sahil Promenade, Khayaban e Sadi, Block 3, Clifton, Karachi '
 
@@ -80,18 +80,9 @@ def probabilistic_identifiers(sample_address, remaining_address):
     return areas_indexes, building_name_indexes, building_number_indexes
 
 
-# print(probabilistic_identifiers(sample6, remaining_address))
 
-sample7 = 'Apartment/Suite# Flat 204, Building All Blocks, Pardesi Green Land Apartments, 8th Street, Bath Island, Clifton, Karachi'
-remaining_address = [' Building All Blocks', ' Pardesi Green Land Apartments', ' Bath Island']
-
-ai, bni, bnui = probabilistic_identifiers(sample7, remaining_address)
-print('Area Index: ', ai)
-print('Building Name Index:', bni)
-print('Building Number Index: ', bnui)
-
-
-def test(data, p_area_index, tokenized_address):
+def test(data, index_tuple, tokenized_address):
+    p_area_index, p_buildingname_index, p_buildingnumber_index = index_tuple
     if len(p_area_index) > 0:
             if data['Area & Sub Area'] != ['None']:
                 for index in p_area_index:
@@ -107,17 +98,66 @@ def test(data, p_area_index, tokenized_address):
                 joined_string = ', '.join(value_lst)
                 data['Area & Sub Area'] = [joined_string.strip()]
 
+
     for index in sorted(p_area_index, reverse=True):
         tokenized_address.pop(index)
 
+
+    address_type = 'house'
+
+    if address_type == 'house':
+        if len(p_buildingname_index) + len(p_buildingnumber_index) > 0:
+            area_indexes_more = p_buildingnumber_index + p_buildingname_index 
+
+            if data['Area & Sub Area'] != ['None']:
+                    temp = data['Area & Sub Area']
+                    data['Area & Sub Area'] = []
+                    for index in area_indexes_more:
+                        data['Area & Sub Area'].append(tokenized_address[index].strip())
+                    value_lst = list(data['Area & Sub Area'])
+                    for x in temp:
+                        value_lst.append(x)
+                    joined_string = ', '.join(value_lst)
+                    data['Area & Sub Area'] = [joined_string.strip()]
+            else:
+                data['Area & Sub Area'] = []
+                for index in area_indexes_more:
+                    data['Area & Sub Area'].append(tokenized_address[index].strip())
+                value_lst = data['Area & Sub Area']
+                joined_string = ', '.join(value_lst)
+                data['Area & Sub Area'] = [joined_string.strip()]
+
+            for index in sorted(area_indexes_more, reverse=True):
+                tokenized_address.pop(index)
+
+
     print(tokenized_address)
+
+
     return data
 
-data = {'Ticket #': [], 'Type': [], 'House #': [], 'Apartment #': [], 'Building #': [], 'Building Name': [], 'Street Number/Name': [], 'Area & Sub Area': [], 'Neighbourhood': [], 'City': []}
+data = {'Ticket #': [], 'Type': [], 'House #': [], 'Apartment #': [], 'Building #': [], 'Building Name': [], 'Street Number/Name': [], 'Area & Sub Area': ['None'], 'Neighbourhood': [], 'City': []}
 # data = {'Ticket #': [], 'Type': [], 'House #': [], 'Apartment #': [], 'Building #': [], 'Building Name': [], 'Street Number/Name': [], 'Area & Sub Area': ['Block 3'], 'Neighbourhood': [], 'City': []}
 
-# ai, bni, bnui = probabilistic_identifiers(sample6, remaining_address)
-# print(test(data, ai, remaining_address))
+# print(probabilistic_identifiers(sample6, remaining_address))
+
+# sample7 = 'Apartment/Suite# Flat 204, Building All Blocks, Pardesi Green Land Apartments, 8th Street, near baitul mukarrram majid, behind hakim saeed park, Bath Island, Clifton, Karachi'
+# remaining_address = [' Building All Blocks', ' Pardesi Green Land Apartments', ' near baitul mukarrram majid', ' behind hakim saeed park', ' Bath Island']
+
+sample8 = ' House # 82-B ,1st Floor, near baitul mukarrram majid, behind hakim saeed park, 21st Street, Khayaban e badar, Phase 6, Defence, Karachi '
+remaining_address = [ ' near baitul mukarrram majid', ' behind hakim saeed park', ' Khayaban e badar', ' Phase 6']
+# remaining_address = [ ' near baitul mukarrram majid', ' behind hakim saeed park', ' Khayaban e badar']
+
+# ai, bni, bnui = probabilistic_identifiers(sample8, remaining_address)
+index_tuple = probabilistic_identifiers(sample8, remaining_address)
+print('Area Index: ', index_tuple[0])
+print('Building Name Index:', index_tuple[1])
+print('Building Number Index: ', index_tuple[2])
+
+print(test(data, index_tuple, remaining_address))
+
+
+
 
 # ai, bni, bnui = probabilistic_identifiers(sample6, remaining_address2)
 # print(test(data, ai, remaining_address2))
