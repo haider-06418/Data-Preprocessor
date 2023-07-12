@@ -1,12 +1,18 @@
+# imports
 import data_preprocessor
+import random
 
 abbreviations = data_preprocessor.load_json("abbreviations.json")
 
+
+# Functions for Data Processing - Address Fields classification
+
+
 def pre_processing(address):
-    lowered_address = data_preprocessor.lowercase_conversion(address)
-    standardized_address = data_preprocessor.remove_punctuation(lowered_address, True)
+    standardized_address = data_preprocessor.lowercase_conversion(address)
+    # standardized_address = data_preprocessor.remove_punctuation(standardized_address, True)
     standardized_address = data_preprocessor.standard_abbreviations_fix(standardized_address, abbreviations)
-    standardized_address = data_preprocessor.remove_extra_spaces(standardized_address, True)
+    standardized_address = data_preprocessor.remove_extra_spaces(standardized_address, False)
 
     address_type = data_preprocessor.check_address_type(standardized_address)
     tokenized_address = data_preprocessor.standard_tokenization(standardized_address)
@@ -18,28 +24,73 @@ def pre_processing(address):
     return (standardized_address, address_type, tokenized_address)
 
 
-fname = 'data/khi_tickets_2022.csv'
+def field_finder(field_name, tokenized_list):
 
-df_complete = data_preprocessor.load_corpus(fname, pandas = True, header = True)
+    street_keywords = ['street', 'road', 'highway', 'lane', 'avenue', 'boulevard', 'sharah']
+    house_keywords = ['house', 'house no', 'house number', 'house #', 'plot']
+    apartment_keywords = ['flat', 'flat no', 'flat number', 'flat #', 'apartment', 'suite']
+    floor_keywords = ['floor', 'fl', 'level']
+    area_keywords = ['phase', 'scheme', 'sector']
+    keywords = []
+    
+    field_name = field_name.lower()
 
-# df_complete = df_complete.reset_index(drop=True)
+    if field_name == 'street':
+        keywords = street_keywords
+    elif field_name == 'house':
+        keywords = house_keywords
+    elif field_name == 'apartment':
+        keywords = apartment_keywords
+    elif field_name == 'floor':
+        keywords = floor_keywords
+    elif field_name == 'area':
+        keywords = area_keywords
 
-df = df_complete.drop(columns=['Title', 'Created', 'Close Time', 'Queue'], axis=1)
-
-df = df.reset_index(drop=True)
-
-# print(df['Address'][0:5])
-
-test = df['Address'][150:165]
-
-print(test)
-
-# for ady in test:
-#     print(ady)
-
-
-# for i in range(len(test)):
-#     info = pre_processing(test[i])
-#     print(info[0])
+    for index, token in enumerate(tokenized_list):
+        if any(keyword in token for keyword in keywords):
+            return index
+    
+    return None
 
 
+def probabilistic_identifiers(reference_tokenized_address, remaining_address):
+
+    index_p_scores = []
+    count = 0
+
+    for item in remaining_address:
+        true_index_in_original = reference_tokenized_address.index(item)+1
+        index_percentage = (true_index_in_original/len(reference_tokenized_address))*100
+        index_p_scores.append((count, index_percentage))
+        count += 1
+
+    potienal_area = [(index, score) for index, score in index_p_scores if score > 50]
+    remaining_fields = [(index, score) for index, score in index_p_scores if score <= 50]
+
+    if len(remaining_fields) >= 2:
+        max_score_index = max(remaining_fields, key=lambda x: x[1])[0]
+        potienal_building_name_tuple = remaining_fields.pop(max_score_index)
+        potienal_building_name = list()
+        potienal_building_name.append(potienal_building_name_tuple)
+
+        potienal_building_number = list(remaining_fields)
+    
+    elif len(remaining_fields) == 1:
+        potienal_building_name = list(remaining_fields)
+        potienal_building_number = []
+
+    else:
+        potienal_building_name, potienal_building_number = [], []
+
+    areas_indexes = [ip_tuple[0] for ip_tuple in potienal_area]
+    building_name_indexes = [ip_tuple[0] for ip_tuple in potienal_building_name]
+    building_number_indexes = [ip_tuple[0] for ip_tuple in potienal_building_number]
+
+    return areas_indexes, building_name_indexes, building_number_indexes
+
+
+def create_random_sample(df, sample_size):
+    selected_columns = ['Ticket#', 'Address']
+    random_indices = random.sample(range(len(df)), sample_size)
+    random_sample = df.loc[random_indices, selected_columns]
+    return random_sample
