@@ -42,5 +42,6 @@
     "hwy": "highway",
     "res": "residential",
     "phase": "phase",
-    "khy": "khayaban"
+    "khy": "khayaban",
+    "terece":"terrace"
 }
