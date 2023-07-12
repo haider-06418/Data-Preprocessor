@@ -13,6 +13,9 @@ import pandas as pd
 from nltk.metrics.distance import edit_distance
 
 
+# Functions for Data Preprocessing - String uniformity, standartization & tokenization
+
+
 def load_corpus(file_name, pandas=False, header = False):
     if pandas==True:
         if header == False:
