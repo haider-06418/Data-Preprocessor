@@ -1,4 +1,4 @@
-''' Address Normalizationn & Classification for Pakistani Based Addresses
+''' Address Normalization for Pakistani Based Addresses
 
 The primary objective of this project is to develop a comprehensive address normalization system tailored specifically for 
 Pakistani addresses. The system will transform addresses from diverse formats into a standardized structure that adheres to 
