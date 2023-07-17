@@ -1,12 +1,13 @@
+# Functions for Data Processing - Address Fields classification
+
+
 # imports
 import data_preprocessor
 import random
 abbreviations = data_preprocessor.load_json("abbreviations.json")
 
 
-# Functions for Data Processing - Address Fields classification
-
-
+# performs pre processing functions on the address and returns information packed as a tuple
 def pre_processing(address):
     standardized_address = data_preprocessor.lowercase_conversion(address)
     # standardized_address = data_preprocessor.remove_punctuation(standardized_address, True)
@@ -24,10 +25,11 @@ def pre_processing(address):
     return (standardized_address, address_type, tokenized_address)
 
 
+# finds index of the desired field, returns none if field not found
 def field_finder(field_name, tokenized_list):
 
     street_keywords = ['street', 'lane']
-    road_keywords = ['road', 'highway', 'khayaban', 'avenue', 'boulevard', 'shahrah', 'alley']
+    road_keywords = ['road', 'highway', 'khayaban', 'avenue', 'boulevard', 'shahrah', 'alley', 'commercial']
     house_keywords = ['house', 'house no', 'house number', 'house #', 'plot']
     apartment_keywords = ['flat', 'flat no', 'flat number', 'flat #', 'apartment', 'suite']
     floor_keywords = ['floor', 'fl', 'level']
@@ -56,6 +58,7 @@ def field_finder(field_name, tokenized_list):
     return None
 
 
+# using a probability based algorithm to classify remaining fields
 def probabilistic_identifiers(reference_tokenized_address, remaining_address):
 
     index_p_scores = []
@@ -92,6 +95,7 @@ def probabilistic_identifiers(reference_tokenized_address, remaining_address):
     return areas_indexes, building_name_indexes, building_number_indexes
 
 
+# creates a random dataset of given size from the complete dataset
 def create_random_sample(df, sample_size, selected_columns):
     random_indices = random.sample(range(len(df)), sample_size)
     random_sample = df.loc[random_indices, selected_columns]
