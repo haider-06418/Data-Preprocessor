@@ -1,7 +1,6 @@
 # imports
 import data_preprocessor
 import random
-
 abbreviations = data_preprocessor.load_json("abbreviations.json")
 
 
@@ -12,6 +11,7 @@ def pre_processing(address):
     standardized_address = data_preprocessor.lowercase_conversion(address)
     # standardized_address = data_preprocessor.remove_punctuation(standardized_address, True)
     standardized_address = data_preprocessor.standard_abbreviations_fix(standardized_address, abbreviations)
+    # standardized_address = data_preprocessor.remove_extra_spaces(standardized_address, True)
     standardized_address = data_preprocessor.remove_extra_spaces(standardized_address, False)
 
     address_type = data_preprocessor.check_address_type(standardized_address)
@@ -27,7 +27,7 @@ def pre_processing(address):
 def field_finder(field_name, tokenized_list):
 
     street_keywords = ['street', 'lane']
-    road_keywords = ['road', 'highway', 'khayaban', 'avenue', 'boulevard', 'sharah']
+    road_keywords = ['road', 'highway', 'khayaban', 'avenue', 'boulevard', 'shahrah', 'alley']
     house_keywords = ['house', 'house no', 'house number', 'house #', 'plot']
     apartment_keywords = ['flat', 'flat no', 'flat number', 'flat #', 'apartment', 'suite']
     floor_keywords = ['floor', 'fl', 'level']
@@ -92,8 +92,7 @@ def probabilistic_identifiers(reference_tokenized_address, remaining_address):
     return areas_indexes, building_name_indexes, building_number_indexes
 
 
-def create_random_sample(df, sample_size):
-    selected_columns = ['Ticket#', 'Address']
+def create_random_sample(df, sample_size, selected_columns):
     random_indices = random.sample(range(len(df)), sample_size)
     random_sample = df.loc[random_indices, selected_columns]
     return random_sample
