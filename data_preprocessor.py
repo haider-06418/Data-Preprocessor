@@ -1,8 +1,5 @@
-# Stage 1: Uniformaty - converting to lowercase and eradicating whitespaces
-# Stage 2: Standardization of Abbreviations
-# Stage 3: Address Parsing and Normalization
-# Stage 4: Spelling Correction - using Levenshtein distance
-# Stage 5: Manual Review & percentage accuracy
+# Functions for Data Preprocessing - String uniformity, standartization & tokenization
+
 
 # imports
 import string
@@ -13,9 +10,7 @@ import pandas as pd
 from nltk.metrics.distance import edit_distance
 
 
-# Functions for Data Preprocessing - String uniformity, standartization & tokenization
-
-
+# load data: either as pandas df or as regular list
 def load_corpus(file_name, pandas=False, header = False):
     if pandas==True:
         if header == False:
@@ -30,6 +25,7 @@ def load_corpus(file_name, pandas=False, header = False):
         return refined_name_list
 
 
+# create corpus file
 def create_corpus(file_name, data):
     # Process the data
     with open(file_name, "w") as file:
@@ -38,6 +34,7 @@ def create_corpus(file_name, data):
     print(f"File '{file_name}' has been created.")
 
 
+# create pandas dataframe with or without data
 def create_dataframe(columns, data = None, datacheck=False):
     if datacheck == True:
         df = pd.DataFrame(data, columns=columns)
@@ -46,16 +43,19 @@ def create_dataframe(columns, data = None, datacheck=False):
     return df
 
 
+# load json file
 def load_json(file_name):
     with open(file_name, 'r') as file:
         dictionary = json.load(file)
     return dictionary
 
 
+# convert text to lowercase
 def lowercase_conversion(text_str):
     return text_str.lower()
 
 
+# remove all or chosen punctuation from text
 def remove_punctuation(text_str, commas = False):
     if commas == True:
         punctuation = string.punctuation.replace(",", "")
@@ -66,6 +66,7 @@ def remove_punctuation(text_str, commas = False):
     return text_str.translate(str.maketrans('', '', punctuation))
 
 
+# remove all or leading/trailing spaces
 def remove_extra_spaces(text_str, allspaces = False):
     if allspaces == True:
         cleaned_text = text_str.replace(" ", "")
@@ -76,12 +77,14 @@ def remove_extra_spaces(text_str, allspaces = False):
         return cleaned_text
     
 
+# add space where there is punctuation 
 def add_spaces_with_punctuation(sentence):
     punctuation_pattern = r'([{}])'.format(re.escape(string.punctuation))
     spaced_sentence = re.sub(punctuation_pattern, r' \1 ', sentence)
     return spaced_sentence
 
 
+# tokenize string either all or by commas
 def standard_tokenization(text_str, space=False):
     if space == True:
         return word_tokenize(text_str)
@@ -90,6 +93,7 @@ def standard_tokenization(text_str, space=False):
         return tokens
 
 
+# correct spelling using levenshtein distance
 def word_correction_levenshtein(word, word_corpus):
     temp = [(edit_distance(word, w),w) for w in word_corpus]
     # return sorted(temp, key = lambda val:val[0])[0][1]
@@ -101,6 +105,7 @@ def word_correction_levenshtein(word, word_corpus):
     return temp
 
 
+# standardize abbreviations
 def standard_abbreviations_fix(address_str, abbreviation_mapping):
     address_str = add_spaces_with_punctuation(address_str)
     words = address_str.split()
@@ -109,6 +114,7 @@ def standard_abbreviations_fix(address_str, abbreviation_mapping):
     return standardized_address
 
 
+# classify given address type
 def check_address_type(address):
     house_keywords = ['house', 'house no', 'house number', 'house #', 'plot']
     apartment_keywords = ['flat', 'flat no', 'flat number', 'flat #', 'apartment', 'building', 'suite']
@@ -124,5 +130,4 @@ def check_address_type(address):
         return 'apartment'
     else:
         return 'unknown'
-
 
