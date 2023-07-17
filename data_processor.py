@@ -26,7 +26,8 @@ def pre_processing(address):
 
 def field_finder(field_name, tokenized_list):
 
-    street_keywords = ['street', 'road', 'highway', 'lane', 'avenue', 'boulevard', 'sharah']
+    street_keywords = ['street', 'lane']
+    road_keywords = ['road', 'highway', 'khayaban', 'avenue', 'boulevard', 'sharah']
     house_keywords = ['house', 'house no', 'house number', 'house #', 'plot']
     apartment_keywords = ['flat', 'flat no', 'flat number', 'flat #', 'apartment', 'suite']
     floor_keywords = ['floor', 'fl', 'level']
@@ -37,6 +38,8 @@ def field_finder(field_name, tokenized_list):
 
     if field_name == 'street':
         keywords = street_keywords
+    elif field_name == 'road':
+        keywords = road_keywords
     elif field_name == 'house':
         keywords = house_keywords
     elif field_name == 'apartment':
