@@ -222,11 +222,11 @@ print('****** DATA NORMALIZATION DONE ******\n')
 
 # storing processed data
 
-# fname_processed = 'data/data_a3.csv'
-# address_df.to_csv(fname_processed, index=False)
+# fname_normalized = 'data/data_a3.csv'
+# address_df.to_csv(fname_normalized, index=False)
 
-fname_processed = 'data/datarand_a4.csv'
-address_df.to_csv(fname_processed, index=False)
+fname_normalized = 'data/datarand_a4.csv'
+address_df.to_csv(fname_normalized, index=False)
 
 print('********* DATA STORAGE DONE *********\n')
-print(f'Processed Data Stored successfully in {fname_processed}.')
+print(f'Processed Data Stored successfully in {fname_normalized}.')
