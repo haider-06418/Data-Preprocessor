@@ -19,20 +19,20 @@ For more information please refer to README.md or the project report file. '''
 # imports 
 import data_preprocessor
 import data_processor
+from config import *
 import pandas as pd
 abbreviations = data_preprocessor.load_json("abbreviations.json")
 
 
-# USER DEFINED 
-fname = 'data/khi_tickets_2022.csv' 
+# USER DEFINED
 columns = ['Ticket #', 'Type', 'House #', 'Apartment #', 'Building #', 'Building Name', 'Street', 'Road', 'Area & Sub Area', 'Neighbourhood', 'City'] 
-df_complete = data_preprocessor.load_corpus(fname, pandas = True, header = True)
-df = df_complete.drop(columns=['Title', 'Created', 'Close Time', 'Queue'], axis=1) 
+df = data_preprocessor.load_corpus(fname, pandas = True, header = True)
+# df = df.drop(columns=['Title', 'Created', 'Close Time', 'Queue'], axis=1) 
 
 
-# data to normalize
-test2 = df[['Ticket#', 'Address']][0:20] 
-test3 = data_processor.create_random_sample(df, 50, ['Ticket#', 'Address'])
+# creating test data to normalize
+# test2 = df[['Ticket#', 'Address']][0:20] 
+# test3 = data_processor.create_random_sample(df, 50, ['Ticket#', 'Address'])
 
 
 # dataframe for storing normalized addresses 
@@ -212,8 +212,10 @@ def parse(dataframe):
     return address_df
 
 
+# calling parse function
+parse(df)
 # parse(test2)
-parse(test3)
+# parse(test3)
 
 
 print('****** DATA PREPROCESSING DONE ******\n')
@@ -222,11 +224,9 @@ print('****** DATA NORMALIZATION DONE ******\n')
 
 # storing processed data
 
-# fname_normalized = 'data/data_a3.csv'
-# address_df.to_csv(fname_normalized, index=False)
-
-fname_normalized = 'data/datarand_a4.csv'
 address_df.to_csv(fname_normalized, index=False)
+
+# df.to_excel(fname_normalized_excel, sheet_name = 'Sheet1', index=False)
 
 print('********* DATA STORAGE DONE *********\n')
 print(f'Processed Data Stored successfully in {fname_normalized}.')
