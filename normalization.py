@@ -226,7 +226,7 @@ print('****** DATA NORMALIZATION DONE ******\n')
 
 address_df.to_csv(fname_normalized, index=False)
 
-# df.to_excel(fname_normalized_excel, sheet_name = 'Sheet1', index=False)
+address_df.to_excel(fname_normalized_excel, sheet_name = 'Sheet1', index=False)
 
 print('********* DATA STORAGE DONE *********\n')
 print(f'Processed Data Stored successfully in {fname_normalized}.')
