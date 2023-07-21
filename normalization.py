@@ -32,9 +32,9 @@ df = df.drop(columns=['Title', 'Created', 'Close Time', 'Queue'], axis=1)
 
 # creating test data to normalize
 
-# test data size = 2% of original data size = 2% of 213874 = 4277.48 = 4275 (randomly generated)
+# ideal test data size = 2% of original data size = 2% of 213874 = 4277.48 = 4275 (randomly generated)
 
-test = data_processor.create_random_sample(df, 4275, ['Ticket#', 'Address'])  
+test = data_processor.create_random_sample(df, 40275, ['Ticket#', 'Address'])  
 
 # test2 = df[['Ticket#', 'Address']][0:20] 
 # test3 = data_processor.create_random_sample(df, 50, ['Ticket#', 'Address'])
@@ -146,8 +146,8 @@ def parse(dataframe):
                     joined_string = ', '.join(value_lst)
                     data['Area & Sub Area'] = [joined_string.strip()]
 
-        for index in sorted(p_area_index, reverse=True):
-            tokenized_address.pop(index)
+        # for index in sorted(p_area_index, reverse=True):
+        #     tokenized_address.pop(index)
 
         
         if address_type == 'house':
@@ -172,8 +172,8 @@ def parse(dataframe):
                     joined_string = ', '.join(value_lst)
                     data['Area & Sub Area'] = [joined_string.strip()]
 
-                for index in sorted(area_indexes_more, reverse=True):
-                    tokenized_address.pop(index)    
+                # for index in sorted(area_indexes_more, reverse=True):
+                #     tokenized_address.pop(index)    
         else:
             ''' Building Name '''
             if len(p_buildingname_index)>0:
@@ -191,12 +191,17 @@ def parse(dataframe):
                 joined_string = ', '.join(value_lst)
                 data['Building #'] = [joined_string.strip()]
 
+            if len(tokenized_address) > 0:
+                for index in sorted(p_area_index, reverse=True):
+                    tokenized_address.pop(index)
 
-            for index in sorted(p_buildingname_index, reverse=True):
-                        tokenized_address.pop(index) 
+            if len(tokenized_address) > 0:
+                for index in sorted(p_buildingname_index, reverse=True):
+                    tokenized_address.pop(index) 
 
-            for index in sorted(p_buildingnumber_index, reverse=True):
-                        tokenized_address.pop(index)
+            if len(tokenized_address) > 0:
+                for index in sorted(p_buildingnumber_index, reverse=True):
+                    tokenized_address.pop(index)
 
 
         ''' Shifting Entries '''
@@ -240,4 +245,5 @@ print('********* DATA STORAGE DONE *********\n')
 print(f'Processed Data Stored successfully in {fname_normalized}.\n')
 
 # analysis of normalization
-data_processor.analyze(df, fname, fname_normalized)
+df_normalized = data_preprocessor.load_corpus(fname_normalized , pandas = True, header = True)
+data_processor.analyze(df_normalized, fname, fname_normalized)
