@@ -27,10 +27,15 @@ abbreviations = data_preprocessor.load_json("abbreviations.json")
 # USER DEFINED
 columns = ['Ticket #', 'Type', 'House #', 'Apartment #', 'Building #', 'Building Name', 'Street', 'Road', 'Area & Sub Area', 'Neighbourhood', 'City'] 
 df = data_preprocessor.load_corpus(fname, pandas = True, header = True)
-# df = df.drop(columns=['Title', 'Created', 'Close Time', 'Queue'], axis=1) 
+df = df.drop(columns=['Title', 'Created', 'Close Time', 'Queue'], axis=1) 
 
 
 # creating test data to normalize
+
+# test data size = 2% of original data size = 2% of 213874 = 4277.48 = 4275 (randomly generated)
+
+test = data_processor.create_random_sample(df, 4275, ['Ticket#', 'Address'])  
+
 # test2 = df[['Ticket#', 'Address']][0:20] 
 # test3 = data_processor.create_random_sample(df, 50, ['Ticket#', 'Address'])
 
@@ -213,7 +218,10 @@ def parse(dataframe):
 
 
 # calling parse function
-parse(df)
+
+# parse(df)
+parse(test)
+
 # parse(test2)
 # parse(test3)
 
@@ -229,4 +237,7 @@ address_df.to_csv(fname_normalized, index=False)
 address_df.to_excel(fname_normalized_excel, sheet_name = 'Sheet1', index=False)
 
 print('********* DATA STORAGE DONE *********\n')
-print(f'Processed Data Stored successfully in {fname_normalized}.')
+print(f'Processed Data Stored successfully in {fname_normalized}.\n')
+
+# analysis of normalization
+data_processor.analyze(df, fname, fname_normalized)
