@@ -100,3 +100,44 @@ def create_random_sample(df, sample_size, selected_columns):
     random_indices = random.sample(range(len(df)), sample_size)
     random_sample = df.loc[random_indices, selected_columns]
     return random_sample
+
+
+# analysis of the normalization
+def analyze(df_normalized, fname, fname_normalized):
+    total_addresses = len(df_normalized)
+
+    missing_houseno = df_normalized.loc[df_normalized['Type'] == 'house', 'House #'].isna().sum()
+    missing_appartmentno = df_normalized.loc[df_normalized['Type'] == 'apartment', 'Apartment #'].isna().sum()
+    missing_buildingname = df_normalized.loc[df_normalized['Type'] == 'apartment', 'Building Name'].isna().sum()
+
+    type_counts = df_normalized['Type'].value_counts()
+    total_houses = type_counts['house']
+    total_appartments = type_counts['apartment']
+
+    total_incorrect_normalized = missing_houseno + missing_appartmentno + missing_buildingname
+
+    total_correct_normalized = total_addresses - total_incorrect_normalized
+    percentage_accuracy = (total_correct_normalized/total_addresses)*100
+    percentage_accuracy = round(percentage_accuracy, 2)
+
+    print('Run Stats: \n')
+    print(f'Source file: {fname}')
+    print(f'Destination file: {fname_normalized}\n')
+    print(f'Total # of Addresses: {total_addresses}')
+    print(f'Total Correct Normalizations: {total_correct_normalized}')
+    print(f'Total Incorrect Normalizations: {total_incorrect_normalized}\n')
+    print(f'Success Percentage: {percentage_accuracy}%\n')
+    print(f'Incorrect Normalized Fields Info: \n')
+    print(f'Field Name: House #')
+    print(f'Total # of Houses: {total_houses}')
+    print(f'Missing House #: {missing_houseno}')
+    print(f'Success Percentage: {round(((total_houses-missing_houseno)/total_houses)*100, 2)}%\n')
+    print(f'Field Name: Apartment #')
+    print(f'Total # of Appartments: {total_appartments}')
+    print(f'Missing Apartment #: {missing_appartmentno}')
+    print(f'Success Percentage: {round(((total_appartments-missing_appartmentno)/total_appartments)*100, 2)}%\n')
+    print(f'Field Name: Building Name')
+    print(f'Total # of Appartments: {total_appartments}')
+    print(f'Missing Building Name: {missing_buildingname}')
+    print(f'Success Percentage: {round(((total_appartments-missing_buildingname)/total_appartments)*100, 2)}%\n')
+
