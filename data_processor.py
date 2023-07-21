@@ -65,7 +65,8 @@ def probabilistic_identifiers(reference_tokenized_address, remaining_address):
     count = 0
 
     for item in remaining_address:
-        true_index_in_original = reference_tokenized_address.index(item)+1
+        # true_index_in_original = reference_tokenized_address.index(item)+1
+        true_index_in_original = reference_tokenized_address.index(item)
         index_percentage = (true_index_in_original/len(reference_tokenized_address))*100
         index_p_scores.append((count, index_percentage))
         count += 1
