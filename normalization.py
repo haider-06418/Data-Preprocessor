@@ -34,7 +34,7 @@ df = df.drop(columns=['Title', 'Created', 'Close Time', 'Queue'], axis=1)
 
 # ideal test data size = 2% of original data size = 2% of 213874 = 4277.48 = 4275 (randomly generated)
 
-test = data_processor.create_random_sample(df, 40275, ['Ticket#', 'Address'])  
+# test = data_processor.create_random_sample(df, 40275, ['Ticket#', 'Address'])  
 
 # test2 = df[['Ticket#', 'Address']][0:20] 
 # test3 = data_processor.create_random_sample(df, 50, ['Ticket#', 'Address'])
@@ -191,17 +191,20 @@ def parse(dataframe):
                 joined_string = ', '.join(value_lst)
                 data['Building #'] = [joined_string.strip()]
 
-            if len(tokenized_address) > 0:
-                for index in sorted(p_area_index, reverse=True):
-                    tokenized_address.pop(index)
+            # if len(tokenized_address) > 0:
+            #     if len(p_area_index) > 0:
+            #         for index in sorted(p_area_index, reverse=True):
+            #             tokenized_address.pop(index)
 
-            if len(tokenized_address) > 0:
-                for index in sorted(p_buildingname_index, reverse=True):
-                    tokenized_address.pop(index) 
+            # if len(tokenized_address) > 0:
+            #     if len(p_buildingname_index) > 0:
+            #         for index in sorted(p_buildingname_index, reverse=True):
+            #             tokenized_address.pop(index) 
 
-            if len(tokenized_address) > 0:
-                for index in sorted(p_buildingnumber_index, reverse=True):
-                    tokenized_address.pop(index)
+            # if len(tokenized_address) > 0:
+            #     if len(p_buildingnumber_index) > 0:
+            #         for index in sorted(p_buildingnumber_index, reverse=True):
+            #             tokenized_address.pop(index)
 
 
         ''' Shifting Entries '''
@@ -224,8 +227,8 @@ def parse(dataframe):
 
 # calling parse function
 
-# parse(df)
-parse(test)
+parse(df)
+# parse(test)
 
 # parse(test2)
 # parse(test3)
