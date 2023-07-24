@@ -2,7 +2,7 @@
 
 # abbreviations = data_preprocessor.load_json("abbreviations.json")
 
-data = {'Ticket #': [], 'Type': [], 'House #': [], 'Apartment #': [], 'Building #': [], 'Building Name': [], 'Street Number/Name': [], 'Area & Sub Area': [], 'Neighbourhood': [], 'City': []}
+data = {'Ticket #': [], 'Type': [], 'House #': [], 'Apartment #': [], 'Building #': [], 'Building Name': [], 'Street': [], 'Road': [], 'Area & Sub Area': [], 'Neighbourhood': [], 'City': []}
 
 
 # incorrect tokenization: incorrect comma placement
@@ -37,3 +37,10 @@ means by which we can correctly place commas so it can we tokenized appropriatly
 The address fields which we are using are the keys of the data dictionary given below and the values will be the correct address field.
 data = {'Ticket #': [], 'Type': [], 'House #': [], 'Apartment #': [], 'Building #': [], 'Building Name': [], 'Street Number/Name': [], 'Area & Sub Area': [], 'Neighbourhood': [], 'City': []}
 Your task is to just place the commas right so we can tokenize it correctly. '''
+
+data = {'Ticket #': [], 'Type': [], 'House #': [], 'Apartment #': [], 'Building #': [], 'Building Name': [], 'Street': [], 'Road': [], 'Area & Sub Area': [], 'Neighbourhood': [], 'City': []}
+
+
+data = {'Ticket #': ['12334'], 'Type': ['house'], 'House #': ['House # 75/1 5th lane'], 'Apartment #': [], 'Building #': [], 'Building Name': [], 'Street': [], 'Road': ['Khayaban e badar'], 'Area & Sub Area': ['Phase 6'], 'Neighbourhood': ['Defence'], 'City': ['Karachi']}
+
+data = {'Ticket #': ['12345678'], 'Type': ['appartment'], 'House #': [], 'Apartment #': [' House # Flat no. 5 2nd Floor Rabia Apartment Block 7/8'], 'Building #': [], 'Building Name': [], 'Street': [], 'Road': [], 'Area & Sub Area': ['CP Berar CHS'], 'Neighbourhood': ['PECHS'], 'City': ['Karachi']}
