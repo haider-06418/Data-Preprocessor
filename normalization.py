@@ -37,7 +37,7 @@ df = df.drop(columns=['Title', 'Created', 'Close Time', 'Queue'], axis=1)
 # test = data_processor.create_random_sample(df, 40275, ['Ticket#', 'Address'])  
 
 # test2 = df[['Ticket#', 'Address']][0:20] 
-# test3 = data_processor.create_random_sample(df, 50, ['Ticket#', 'Address'])
+test3 = data_processor.create_random_sample(df, 50, ['Ticket#', 'Address'])
 
 
 # dataframe for storing normalized addresses 
@@ -78,6 +78,11 @@ def parse(dataframe):
 
         ''' Neighbourhood '''
         data['Neighbourhood'].append(tokenized_address.pop(-1).strip())
+
+
+        ''' Layer 1 Field Seperation Checks'''
+        if data['Type'] == 'house' and data['Neighbourhood'] == 'defence':
+            pass
 
 
         ''' Road '''
@@ -227,11 +232,12 @@ def parse(dataframe):
 
 # calling parse function
 
-parse(df)
+# parse(df)
+
 # parse(test)
 
 # parse(test2)
-# parse(test3)
+parse(test3)
 
 
 print('****** DATA PREPROCESSING DONE ******\n')
