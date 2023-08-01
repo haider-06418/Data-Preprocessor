@@ -33,7 +33,7 @@ def field_finder(field_name, tokenized_list):
     house_keywords = ['house', 'house no', 'house number', 'house #', 'plot']
     apartment_keywords = ['flat', 'flat no', 'flat number', 'flat #', 'apartment', 'suite']
     floor_keywords = ['floor', 'fl', 'level']
-    area_keywords = ['phase', 'scheme', 'sector']
+    area_keywords = ['phase', 'scheme', 'sector', 'town', 'lines']
     keywords = []
     
     field_name = field_name.lower()
