@@ -1,6 +1,7 @@
 {
     "apt": "apartment",
     "appt": "apartment",
+    "app": "apartment",
     "aptt": "apartment",
     "apptt": "apartment",
     "apptmnt": "apartment",
@@ -55,6 +56,7 @@
     "strt": "street",
     "ave": "avenue",
     "av": "avenue",
+    "avanue": "avenue",
     "blvd": "boulevard",
     "pkwy": "parkway",
     "hwy": "highway",
@@ -62,7 +64,9 @@
     "phase": "phase",
     "khy": "khayaban",
     "kahayaban": "khayaban",
+    "kheyaban": "khayaban",
     "khyban": "khayaban",
+    "khayban": "khayaban",
     "DHA": "Defence",
     "D.H.A": "Defence",
     "terece":"terrace",
@@ -73,5 +77,6 @@
     "shara":"shahrah",
     "of":"off",
     "offf":"off",
-    "oof":"off"
+    "oof":"off",
+    "jamal uddinafghanird":"jamaludin afghani road"
 }
