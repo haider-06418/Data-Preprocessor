@@ -134,4 +134,12 @@ def check_address_type(address):
 
 # remove duplicates from tokenized address
 def remove_duplicate_tokens(tokenized_address):
-    return list(dict.fromkeys(tokenized_address))
+    tokenized_address = [item.strip() for item in tokenized_address]
+    return list(dict.fromkeys(tokenized_address[::-1]))[::-1]
+
+
+# remove duplicate consecutive commas 
+def remove_multiple_commas(address_string):
+    while ",," in address_string or ", ," in address_string:
+        address_string = address_string.replace(",,", ",").replace(", ,", ",")
+    return address_string

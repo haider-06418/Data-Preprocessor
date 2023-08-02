@@ -10,6 +10,7 @@ abbreviations = data_preprocessor.load_json("abbreviations.json")
 # performs pre processing functions on the address and returns information packed as a tuple
 def pre_processing(address):
     standardized_address = data_preprocessor.lowercase_conversion(address)
+    standardized_address = data_preprocessor.remove_multiple_commas(standardized_address)
     # standardized_address = data_preprocessor.remove_punctuation(standardized_address, True)
     standardized_address = data_preprocessor.standard_abbreviations_fix(standardized_address, abbreviations)
     # standardized_address = data_preprocessor.remove_extra_spaces(standardized_address, True)
@@ -17,6 +18,7 @@ def pre_processing(address):
 
     address_type = data_preprocessor.check_address_type(standardized_address)
     tokenized_address = data_preprocessor.standard_tokenization(standardized_address)
+    tokenized_address = data_preprocessor.remove_duplicate_tokens(tokenized_address)
 
     # print(standardized_address)
     # print(address_type)
@@ -33,7 +35,8 @@ def field_finder(field_name, tokenized_list):
     house_keywords = ['house', 'house no', 'house number', 'house #', 'plot']
     apartment_keywords = ['flat', 'flat no', 'flat number', 'flat #', 'apartment', 'suite']
     floor_keywords = ['floor', 'fl', 'level']
-    area_keywords = ['phase', 'scheme', 'sector', 'town', 'lines']
+    # area_keywords = ['phase', 'scheme', 'sector', 'town', 'lines']
+    area_keywords = ['phase', 'scheme', 'sector'] 
     keywords = []
     
     field_name = field_name.lower()
@@ -61,12 +64,15 @@ def field_finder(field_name, tokenized_list):
 # using a probability based algorithm to classify remaining fields
 def probabilistic_identifiers(reference_tokenized_address, remaining_address):
 
+    if len(remaining_address) == 0:
+        return [], [], []    
+
     index_p_scores = []
     count = 0
 
     for item in remaining_address:
-        # true_index_in_original = reference_tokenized_address.index(item)+1
-        true_index_in_original = reference_tokenized_address.index(item)
+        true_index_in_original = reference_tokenized_address.index(item)+1
+        # true_index_in_original = reference_tokenized_address.index(item)
         index_percentage = (true_index_in_original/len(reference_tokenized_address))*100
         index_p_scores.append((count, index_percentage))
         count += 1
@@ -141,4 +147,3 @@ def analyze(df_normalized, fname, fname_normalized):
     print(f'Total # of Appartments: {total_appartments}')
     print(f'Missing Building Name: {missing_buildingname}')
     print(f'Success Percentage: {round(((total_appartments-missing_buildingname)/total_appartments)*100, 2)}%\n')
-
