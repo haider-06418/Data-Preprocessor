@@ -44,3 +44,36 @@ data = {'Ticket #': [], 'Type': [], 'House #': [], 'Apartment #': [], 'Building 
 data = {'Ticket #': ['12334'], 'Type': ['house'], 'House #': ['House # 75/1 5th lane'], 'Apartment #': [], 'Building #': [], 'Building Name': [], 'Street': [], 'Road': ['Khayaban e badar'], 'Area & Sub Area': ['Phase 6'], 'Neighbourhood': ['Defence'], 'City': ['Karachi']}
 
 data = {'Ticket #': ['12345678'], 'Type': ['appartment'], 'House #': [], 'Apartment #': [' House # Flat no. 5 2nd Floor Rabia Apartment Block 7/8'], 'Building #': [], 'Building Name': [], 'Street': [], 'Road': [], 'Area & Sub Area': ['CP Berar CHS'], 'Neighbourhood': ['PECHS'], 'City': ['Karachi']}
+
+
+# Test Data for House / Street seperation using pattern recognition
+
+# print(separate_house_street_defense(''))
+
+# print(separate_house_street_defense("house # 71 13th street off"))
+# print(separate_house_street_defense("house # 73 13th street"))
+# print(separate_house_street_defense("house # 75 / 2 13th street"))
+# print(separate_house_street_defense("house # 41 / 1 20 lane off"))
+# print(separate_house_street_defense("house # 53 / 2 24th lane"))
+# print(separate_house_street_defense("house # 55 / 1 17th lane"))
+# print(separate_house_street_defense("house # 58 21st lane"))
+# print(separate_house_street_defense("house # 61 / 2 24th lane"))
+# print(separate_house_street_defense("house # 124 / 1 16th street"))
+# print(separate_house_street_defense("house # 142 / 2 11th street"))
+# print(separate_house_street_defense("house # 89 / 4 22nd street off"))
+# print(separate_house_street_defense("house # 20 b2 street of"))
+# print(separate_house_street_defense("house # s - 21 street 7th"))
+# print(separate_house_street_defense("house # a - 129 3rd street"))
+# print(separate_house_street_defense("House # 1234 Street 56"))
+# print(separate_house_street_defense("house # 161 / 2 30th street main"))
+# print(separate_house_street_defense("house # 40 b opposite 23rd street"))
+# print(separate_house_street_defense("house # 11 - c lane # 11"))
+# print(separate_house_street_defense('house # 26c 1st floor lane 3'))
+# print(separate_house_street_defense('house # 43 c near mr bergur 2nd lane'))
+# print(separate_house_street_defense('house # street - 15 aero club off'))
+# print(separate_house_street_defense('house # 47f 48th street'))
+# print(separate_house_street_defense('house # 18 - c / 2 1st floor 11th lane'))
+# print(separate_house_street_defense('house # 11 - c lane # 11'))
+# print(separate_house_street_defense("house # 11 - c lane # 11"))
+# print(separate_house_street_defense('house # f - 64 5th street off'))
+# print(separate_house_street_defense('house # 6 - c 10thstreet'))
