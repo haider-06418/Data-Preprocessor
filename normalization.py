@@ -94,6 +94,13 @@ def parse(dataframe):
             data['Road'].append(tokenized_address.pop(road_index).strip())
         else:
             data['Road'].append('None')
+        
+        road_index = data_processor.field_finder('road', tokenized_address)
+        if road_index is not None:
+            data['Road'].append(tokenized_address.pop(road_index).strip())
+            value_lst = data['Road']
+            joined_string = ', '.join(value_lst)
+            data['Road'] = [joined_string.strip()]
 
 
         ''' Street '''
@@ -103,7 +110,14 @@ def parse(dataframe):
         else:
             data['Street'].append('None')
 
+        street_index = data_processor.field_finder('street', tokenized_address)
+        if street_index is not None:
+            data['Street'].append(tokenized_address.pop(street_index).strip())
+            value_lst = data['Street']
+            joined_string = ', '.join(value_lst)
+            data['Street'] = [joined_string.strip()]
         
+
         '''Appartment # '''
         appartment_index = data_processor.field_finder('apartment', tokenized_address)
         if appartment_index is not None:
