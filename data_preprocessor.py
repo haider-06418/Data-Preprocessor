@@ -131,3 +131,7 @@ def check_address_type(address):
     else:
         return 'unknown'
 
+
+# remove duplicates from tokenized address
+def remove_duplicate_tokens(tokenized_address):
+    return list(dict.fromkeys(tokenized_address))
