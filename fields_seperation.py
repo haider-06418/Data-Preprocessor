@@ -71,6 +71,10 @@ def layer1checks(tokenized_list, data):
 
             else:
                 # generic house / street seperator
-                pass
+                houseNo, street = separate_house_street_defense(tokenized_list[fields_seperation_info[0]])
+                if (houseNo, street) != (None, None):
+                    tokenized_list.pop(fields_seperation_info[0])
+                    tokenized_list.insert(0, houseNo)
+                    tokenized_list.insert(1, street)
 
     return tokenized_list

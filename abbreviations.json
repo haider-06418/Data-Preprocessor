@@ -3,6 +3,7 @@
     "appt": "apartment",
     "app": "apartment",
     "aptt": "apartment",
+    "appart": "apartment",
     "apptt": "apartment",
     "apptmnt": "apartment",
     "bldg": "building",
@@ -39,6 +40,8 @@
     "fl": "floor",
     "flt": "flat",
     "blk": "block",
+    "blck": "block",
+    "blok": "block",
     "sch": "school",
     "univ": "university",
     "corp": "corporation",
@@ -58,6 +61,7 @@
     "av": "avenue",
     "avanue": "avenue",
     "blvd": "boulevard",
+    "bolevard": "boulevard",
     "pkwy": "parkway",
     "hwy": "highway",
     "res": "residential",
@@ -78,5 +82,5 @@
     "of":"off",
     "offf":"off",
     "oof":"off",
-    "jamal uddinafghanird":"jamaludin afghani road"
+    "uddinafghanird":"afghani road"
 }
