@@ -77,3 +77,23 @@ data = {'Ticket #': ['12345678'], 'Type': ['appartment'], 'House #': [], 'Apartm
 # print(separate_house_street_defense("house # 11 - c lane # 11"))
 # print(separate_house_street_defense('house # f - 64 5th street off'))
 # print(separate_house_street_defense('house # 6 - c 10thstreet'))
+
+# sample spelling correction using Levenshtein distance 
+
+from nltk.metrics.distance import edit_distance
+
+correct_words = ['gulshan e hadeed', 'gulshan e iqbal', 'defence', 'clifton', 'meher plaza', 'al murtaza heights', 'al murtaza height']
+
+incorrect_words= ['gulshen iqbal', 'defnse', 'klifton', 'mehar plaza', 'al murteza heights']
+
+for word in incorrect_words:
+		temp = [(edit_distance(word, w),w) for w in correct_words]
+		# print(sorted(temp, key = lambda val:val[0])[0][1])
+
+		if len(temp) > 1: 
+			temp = [min(temp, key=lambda t: t[0])]
+
+		print(temp)
+		# print(temp[0][1])
+
+# print(edit_distance(incorrect_words[2], correct_words[3]), correct_words[3])
