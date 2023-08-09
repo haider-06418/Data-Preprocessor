@@ -272,4 +272,4 @@ print(f'Processed Data Stored successfully in {fname_normalized}.\n')
 
 # analysis of normalization
 df_normalized = data_preprocessor.load_corpus(fname_normalized , pandas = True, header = True)
-data_processor.analyze(df_normalized, fname, fname_normalized)
+data_processor.analyze(df, df_normalized, fname, fname_normalized)

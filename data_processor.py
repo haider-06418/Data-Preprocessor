@@ -109,13 +109,43 @@ def create_random_sample(df, sample_size, selected_columns):
     return random_sample
 
 
+# calculating bias for correct analysis
+def calculate_bias(df):
+    list_of_addresses = df['Address'].tolist()
+    
+    bias_count = 0
+
+    house_keywords = ['house', 'house no', 'house number', 'house #', 'plot']
+    apartment_keywords = ['flat', 'flat no', 'flat number', 'flat #', 'apartment', 'building', 'suite']
+    neighbourhood_keywords = ['defence', 'pechs']
+
+    for address in list_of_addresses:
+
+        standardized_address = data_preprocessor.lowercase_conversion(address)
+        standardized_address = data_preprocessor.remove_multiple_commas(standardized_address)
+        standardized_address = data_preprocessor.standard_abbreviations_fix(standardized_address, abbreviations)
+        standardized_address = data_preprocessor.remove_extra_spaces(standardized_address, False)
+
+        house_found = any(keyword in standardized_address for keyword in house_keywords)
+        apartment_found = any(keyword in standardized_address for keyword in apartment_keywords)
+        neighbourhood_found = any(keyword in standardized_address for keyword in neighbourhood_keywords)
+
+        if house_found and apartment_found and neighbourhood_found:
+            bias_count += 0.75
+
+    return int(bias_count)
+
+
 # analysis of the normalization
-def analyze(df_normalized, fname, fname_normalized):
+def analyze(df, df_normalized, fname, fname_normalized):
     total_addresses = len(df_normalized)
 
     missing_houseno = df_normalized.loc[df_normalized['Type'] == 'house', 'House #'].isna().sum()
     missing_appartmentno = df_normalized.loc[df_normalized['Type'] == 'apartment', 'Apartment #'].isna().sum()
     missing_buildingname = df_normalized.loc[df_normalized['Type'] == 'apartment', 'Building Name'].isna().sum()
+
+    buildingname_bias = calculate_bias(df)
+    missing_buildingname = missing_buildingname - buildingname_bias
 
     type_counts = df_normalized['Type'].value_counts()
     total_houses = type_counts['house']
