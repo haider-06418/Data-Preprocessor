@@ -28,7 +28,7 @@ abbreviations = data_preprocessor.load_json("abbreviations.json")
 # USER DEFINED
 columns = ['Ticket #', 'Type', 'House #', 'Apartment #', 'Building #', 'Building Name', 'Street', 'Road', 'Area & Sub Area', 'Neighbourhood', 'City'] 
 df = data_preprocessor.load_corpus(fname, pandas = True, header = True)
-df = df.drop(columns=['Title', 'Created', 'Close Time', 'Queue'], axis=1) 
+df = df.drop(columns=columns_to_drop, axis=1) 
 
 
 # creating test data to normalize
