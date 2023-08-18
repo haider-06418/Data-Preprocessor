@@ -27,6 +27,17 @@ def pre_processing(address):
     return (standardized_address, address_type, tokenized_address)
 
 
+# preparing unidentified addresses list for building name extraction
+def brew_address_list(address_list):
+    updated_address_list = [data_preprocessor.lowercase_conversion(address) for address in address_list]
+    updated_address_list = [data_preprocessor.remove_multiple_commas(address) for address in updated_address_list]
+    updated_address_list = [data_preprocessor.standard_abbreviations_fix(address, abbreviations) for address in updated_address_list]
+    updated_address_list = [data_preprocessor.address_trimmer(address) for address in updated_address_list]
+    updated_address_list = [data_preprocessor.remove_punctuation(address) for address in updated_address_list]
+    updated_address_list = [data_preprocessor.remove_extra_spaces(address, False) for address in updated_address_list]
+    return updated_address_list
+
+
 # finds index of the desired field, returns none if field not found
 def field_finder(field_name, tokenized_list):
 
@@ -144,8 +155,8 @@ def analyze(df, df_normalized, fname, fname_normalized):
     missing_appartmentno = df_normalized.loc[df_normalized['Type'] == 'apartment', 'Apartment #'].isna().sum()
     missing_buildingname = df_normalized.loc[df_normalized['Type'] == 'apartment', 'Building Name'].isna().sum()
 
-    buildingname_bias = calculate_bias(df)
-    missing_buildingname = missing_buildingname - buildingname_bias
+    # buildingname_bias = calculate_bias(df)
+    # missing_buildingname = missing_buildingname - buildingname_bias
 
     type_counts = df_normalized['Type'].value_counts()
     total_houses = type_counts['house']
