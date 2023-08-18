@@ -143,3 +143,11 @@ def remove_multiple_commas(address_string):
     while ",," in address_string or ", ," in address_string:
         address_string = address_string.replace(",,", ",").replace(", ,", ",")
     return address_string
+
+
+# trim address for building name extraction
+def address_trimmer(address_string):
+    tokens = address_string.split(',')
+    modified_tokens = tokens[:-3]
+    modified_string = ','.join(modified_tokens)
+    return modified_string
