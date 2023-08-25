@@ -97,3 +97,69 @@ for word in incorrect_words:
 		# print(temp[0][1])
 
 # print(edit_distance(incorrect_words[2], correct_words[3]), correct_words[3])
+
+
+# Appartment and Lane pattern recognition:
+
+'house # 16c flat no 401 3rd lane '
+
+'house # 6 - c flat 1 14th lane '
+
+'house # 40 - c flat no . 2 2nd floor lane 1 '
+
+'house # 47c flat 3 floor 3rd street 21st '
+
+'house # 14 - c flat 301 3rd floor 3rd street '
+
+'house # 20 c flat 101 lane 7th '
+
+'house # 24 - c flat no 3 lane no 3 '
+
+'house # 34 - c flat 302 3rd floor 2nd lane '
+
+'house # 19 - c flat 2 1st floor 27th street '
+
+'house # 12 - c flat no 02 1st floor 32nd street '
+
+'house # 12 - c flat no 301 12th street off '
+
+'house # 55 - c flat 204 2nd floor 29th street off '
+
+'house # 13 - c flat 6 3rd floor 8th lane '
+
+'house # 10 - c flat no 3 2nd floor 4th lane '
+
+'house # 32 - c flat no 3 3rd floor 2nd lane off '
+
+
+# Apartments which do not have any building name as they are portions
+
+' Apartment/Suite# House /Suite # 802, Building Block 8th floor, Badar Street, Block-16-A, Gulistan-e-Johar, Karachi '
+
+' House # LS-9 App 2, Street 10, Block-2, Gulistan-e-Johar, Karachi '
+
+' House # 14 C Flat 5 3rd Floor 8th, Ittehad Lane, Phase 6, Defence, Karachi '
+
+'  House #  4C 4th Fl 10th Str, Jami Commercial, Phase 7, Defence, Karachi '
+
+' House # 6-C/2 Flat 1 11th , Jami Commercial, Phase 7, Defence, Karachi '
+
+' House # 94-C Flat No 5 3rd Floor  11th, Jami Commercial, Phase 7, Defence, Karachi '
+
+' House # C 5 C Flat no.1 Main, Sehar Commercial, Phase 7, Defence, Karachi '
+
+' House # 34-C Flat No 2 1st Floor 6th, Ittehad Lane, Phase 6, Defence, Karachi '
+
+' House # 31/E Flat B2 2nd Floor 7A, Badar Commercial, Phase 5, Defence, Karachi '
+
+' House # 41/Y-2, Flat# 04, 1st Floor, Dr Mahmud Hussain Rd, Block 6, PECHS, Karachi '
+
+' House # 43/10 -L Building 3 2nd Floor, Shah Abdul Latif Rd, Block 6, PECHS, Karachi '
+
+' House # 43-10-L/13 Flat 1, Dr Mahmud Hussain Rd, Block 6, PECHS, Karachi '
+
+' House # 171-E  FLAT # 302, Sir Syed Road, Block 3, PECHS, Karachi '
+
+' House # 32-C Flat No 3 3rd Floor 2nd Lane Off, Rahat Commercial, Phase 6, Defence, Karachi '
+
+' House # 3-C 5th Floor 3rd , Rahat Lane, Phase 6, Defence, Karachi '
