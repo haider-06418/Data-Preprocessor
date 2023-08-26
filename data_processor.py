@@ -33,7 +33,7 @@ def brew_address_list(address_list):
     updated_address_list = [data_preprocessor.remove_multiple_commas(address) for address in updated_address_list]
     updated_address_list = [data_preprocessor.standard_abbreviations_fix(address, abbreviations) for address in updated_address_list]
     updated_address_list = [data_preprocessor.address_trimmer(address) for address in updated_address_list]
-    updated_address_list = [data_preprocessor.remove_punctuation(address) for address in updated_address_list]
+    # updated_address_list = [data_preprocessor.remove_punctuation(address) for address in updated_address_list]
     updated_address_list = [data_preprocessor.remove_extra_spaces(address, False) for address in updated_address_list]
     return updated_address_list
 
@@ -45,7 +45,7 @@ def field_finder(field_name, tokenized_list):
     road_keywords = ['road', 'highway', 'khayaban', 'avenue', 'boulevard', 'shahrah', 'alley', 'commercial']
     house_keywords = ['house', 'house no', 'house number', 'house #', 'plot']
     apartment_keywords = ['flat', 'flat no', 'flat number', 'flat #', 'apartment', 'suite']
-    floor_keywords = ['floor', 'fl', 'level']
+    floor_keywords = ['floor', 'level']
     # area_keywords = ['phase', 'scheme', 'sector', 'town', 'lines']
     area_keywords = ['phase', 'scheme', 'sector'] 
     keywords = []
