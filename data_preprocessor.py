@@ -147,7 +147,10 @@ def remove_multiple_commas(address_string):
 
 # trim address for building name extraction
 def address_trimmer(address_string):
+    if '#' in address_string:
+        if address_string.split()[0].lower() == 'house' or address_string.split()[0].lower() == 'apartment/suite#':
+            address_string = address_string.split('#', 1)[-1]
     tokens = address_string.split(',')
-    modified_tokens = tokens[:-3]
+    modified_tokens = tokens[:-4]
     modified_string = ','.join(modified_tokens)
     return modified_string
