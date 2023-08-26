@@ -3,7 +3,7 @@
 
 # imports
 import re
-from fuzzywuzzy import process
+from fuzzywuzzy import process, fuzz
 import data_preprocessor
 import data_processor
 import os
@@ -22,6 +22,7 @@ def preparing_extraction(address_df, normalized_df):
     normalized_df = normalized_df.merge(address_df, left_on='Ticket #', right_on='Ticket#', how='left').drop('Ticket#', axis=1)
     
     lst_addresses = normalized_df[normalized_df['Building Name'] == 'None']['Address'].tolist()
+    # lst_addresses = normalized_df[(normalized_df['Building Name'] == 'None') & (normalized_df['Type'] == 'apartment')]['Address'].tolist()
     
     city_name = list(set(normalized_df['City']))[0]    
     file_name = f"data/buildings/directory/{city_name}_buildings.txt"
@@ -83,21 +84,59 @@ def layer2checks(address, buildingname, buildingnamecorpus):
 # Extract building names from addresses based on fuzzy matching with a default adjustable threshold
 def extract_building_names(addresses, building_names, threshold=75):
     extracted_names = []
-
+    
     for address in addresses:
-        best_match, score = process.extractOne(address, building_names)
-
-        if score >= threshold:
-            
-            verify_building_name = layer2checks(address, best_match, building_names)
-            if verify_building_name == True:
-                extracted_names.append(best_match)
-            else:
-                extracted_names.append(verify_building_name)
+        matches = process.extract(address, building_names, limit=1, scorer=fuzz.token_set_ratio)
+        best_match, score = matches[0][0], matches[0][1]
+        
+        # extracted_names.append(best_match)
+        
+        if score <= 70:
+            best_match = 'None'
+        
+        verify_building_name = layer2checks(address, best_match, building_names)
+        if verify_building_name == True:
+            extracted_names.append(best_match)
         else:
-            extracted_names.append('None')
+            extracted_names.append(verify_building_name)
+        
+        
+        # if score >= threshold:
+            
+        #     verify_building_name = layer2checks(address, best_match, building_names)
+        #     if verify_building_name == True:
+        #         extracted_names.append(best_match)
+        #     else:
+        #         extracted_names.append(verify_building_name)
+        # else:
+        #     extracted_names.append('None')
+        
+        
+        # if score >= threshold:
+        #     extracted_names.append(best_match)
+        # else:
+        #     extracted_names.append('None')
 
     return extracted_names
+
+
+# def extract_building_names(addresses, building_names, threshold=75):
+#     extracted_names = []
+
+#     for address in addresses:
+#         best_match, score = process.extractOne(address, building_names)
+
+#         if score >= threshold:
+            
+#             verify_building_name = layer2checks(address, best_match, building_names)
+#             if verify_building_name == True:
+#                 extracted_names.append(best_match)
+#             else:
+#                 extracted_names.append(verify_building_name)
+#         else:
+#             extracted_names.append('None')
+
+#     return extracted_names
 
 
 # def extract_building_names(addresses, building_names, threshold=80):
@@ -106,10 +145,10 @@ def extract_building_names(addresses, building_names, threshold=75):
 #     for address in addresses:
 #         best_match, score = process.extractOne(address, building_names)
 
-#         if score >= threshold:
-#             extracted_names.append(best_match)
-#         else:
-#             extracted_names.append('None')
+        # if score >= threshold:
+        #     extracted_names.append(best_match)
+        # else:
+        #     extracted_names.append('None')
 
 #     return extracted_names
 
@@ -140,6 +179,6 @@ data = {
 
 df = pd.DataFrame(data)
 
-df.to_excel('data/buildings/extraction_12.xlsx', sheet_name = 'Sheet1', index=False)
+df.to_excel('data/buildings/extraction_14.xlsx', sheet_name = 'Sheet1', index=False)
 
 print('All Done')
