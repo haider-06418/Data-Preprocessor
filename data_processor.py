@@ -141,7 +141,9 @@ def calculate_bias(df):
         apartment_found = any(keyword in standardized_address for keyword in apartment_keywords)
         neighbourhood_found = any(keyword in standardized_address for keyword in neighbourhood_keywords)
 
-        if house_found and apartment_found and neighbourhood_found:
+        if house_found == True and apartment_found == False and 'floor' in standardized_address:
+            bias_count += 0.85
+        elif house_found and apartment_found and neighbourhood_found:
             bias_count += 0.75
 
     return int(bias_count)
@@ -155,8 +157,8 @@ def analyze(df, df_normalized, fname, fname_normalized):
     missing_appartmentno = df_normalized.loc[df_normalized['Type'] == 'apartment', 'Apartment #'].isna().sum()
     missing_buildingname = df_normalized.loc[df_normalized['Type'] == 'apartment', 'Building Name'].isna().sum()
 
-    # buildingname_bias = calculate_bias(df)
-    # missing_buildingname = missing_buildingname - buildingname_bias
+    buildingname_bias = calculate_bias(df)
+    missing_buildingname = missing_buildingname - buildingname_bias
 
     type_counts = df_normalized['Type'].value_counts()
     total_houses = type_counts['house']
