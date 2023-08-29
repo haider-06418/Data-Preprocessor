@@ -117,7 +117,7 @@ def standard_abbreviations_fix(address_str, abbreviation_mapping):
 # classify given address type
 def check_address_type(address):
     house_keywords = ['house', 'house no', 'house number', 'house #', 'plot']
-    apartment_keywords = ['flat', 'flat no', 'flat number', 'flat #', 'apartment', 'building', 'suite']
+    apartment_keywords = ['flat', 'flat no', 'flat number', 'flat #', 'apartment', 'building', 'suite', 'floor']
 
     house_found = any(keyword in address for keyword in house_keywords)
     apartment_found = any(keyword in address for keyword in apartment_keywords)
