@@ -42,7 +42,7 @@ def brew_address_list(address_list):
 def field_finder(field_name, tokenized_list):
 
     street_keywords = ['street', 'lane']
-    road_keywords = ['road', 'highway', 'khayaban', 'avenue', 'boulevard', 'shahrah', 'alley', 'commercial']
+    road_keywords = ['road', 'highway', 'khayaban', 'avenue', 'boulevard', 'shahrah', 'alley', 'commercial', 'nehr']
     house_keywords = ['house', 'house no', 'house number', 'house #', 'plot']
     apartment_keywords = ['flat', 'flat no', 'flat number', 'flat #', 'apartment', 'suite']
     floor_keywords = ['floor', 'level']

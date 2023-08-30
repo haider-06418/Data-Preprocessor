@@ -10,8 +10,8 @@ Process Overview:
 Stage 1: Uniformaty - converting to lowercase and eradicating whitespaces
 Stage 2: Standardization of Abbreviations
 Stage 3: Address Parsing and Normalization
-Stage 4: Spelling Correction - using Levenshtein distance
-Stage 5: Manual Review & percentage accuracy
+Stage 4: Building Name Extraction - using Levenshtein distance
+Stage 5: Percentage accuracy
 
 For more information please refer to README.md or the project report file. '''
 
@@ -20,6 +20,7 @@ For more information please refer to README.md or the project report file. '''
 import data_preprocessor
 import data_processor
 import fields_seperation
+import building_extraction
 from config import *
 import pandas as pd
 abbreviations = data_preprocessor.load_json("abbreviations.json")
@@ -261,11 +262,23 @@ print('****** DATA PREPROCESSING DONE ******\n')
 print('****** DATA NORMALIZATION DONE ******\n')
 
 
+# building extraction for unidentified buildings
+
+print('**** INITIALIZING BUILDING EXTRACTION ****\n')
+
+normalized_df = building_extraction.building_name_extraction_pipeline(df, address_df)
+
+print('****** BUILDING EXTRACTION DONE ******\n')
+
+
 # storing processed data
 
-address_df.to_csv(fname_normalized, index=False)
+# address_df.to_csv(fname_normalized, index=False)
+# address_df.to_excel(fname_normalized_excel, sheet_name = 'Sheet1', index=False)
 
-address_df.to_excel(fname_normalized_excel, sheet_name = 'Sheet1', index=False)
+normalized_df.to_csv(fname_normalized, index=False)
+normalized_df.to_excel(fname_normalized_excel, sheet_name = 'Sheet1', index=False)
+
 
 print('********* DATA STORAGE DONE *********\n')
 print(f'Processed Data Stored successfully in {fname_normalized}.\n')

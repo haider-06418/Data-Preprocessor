@@ -19,8 +19,11 @@ def refine_building_names(building_name):
 def preparing_extraction(address_df, normalized_df):
     normalized_df = normalized_df.merge(address_df, left_on='Ticket #', right_on='Ticket#', how='left').drop('Ticket#', axis=1)
     
-    lst_addresses = normalized_df[(normalized_df['Building Name'] == 'None') & (normalized_df['Type'] == 'apartment')]['Address'].tolist()
-    lst_ticketnumbers = normalized_df[(normalized_df['Building Name'] == 'None') & (normalized_df['Type'] == 'apartment')]['Ticket #'].tolist()
+    # lst_addresses = normalized_df[(normalized_df['Building Name'] == 'None') & (normalized_df['Type'] == 'apartment')]['Address'].tolist()
+    # lst_ticketnumbers = normalized_df[(normalized_df['Building Name'] == 'None') & (normalized_df['Type'] == 'apartment')]['Ticket #'].tolist()
+    lst_addresses = normalized_df[normalized_df['Building Name'] == 'None']['Address'].tolist()
+    lst_ticketnumbers = normalized_df[normalized_df['Building Name'] == 'None']['Ticket #'].tolist()
+    
     
     buildings_corpus_lst = data_preprocessor.load_corpus('data/buildings/directory/buildings_directory.txt')
     
@@ -78,6 +81,9 @@ def correction(df_normalized, ticketnumbers, buildingnames):
         if bname != 'None':        
             idx = df_normalized[df_normalized['Ticket #'] == ticket].index[0]
             
+            if df_normalized.at[idx, 'Type'] == 'house':
+                df_normalized.at[idx, 'Type'] = 'apartment'
+            
             if df_normalized.at[idx, 'Building Name'] == "None":
                 df_normalized.at[idx, 'Building Name'] = bname
             else:
@@ -88,3 +94,11 @@ def correction(df_normalized, ticketnumbers, buildingnames):
                 df_normalized.at[idx, 'Building Name'] = bname
 
     return df_normalized
+
+
+# Building Name Extraction Pipeline
+def building_name_extraction_pipeline(df, df_normalized):
+    lst_addresses, lst_building_names, lst_ticketnumbers = preparing_extraction(df, df_normalized)
+    extracted_building_names = extract_building_names(lst_addresses, lst_building_names)
+    corrected_df = correction(df_normalized, lst_ticketnumbers, extracted_building_names)
+    return corrected_df
