@@ -68,3 +68,23 @@ def extract_building_names(addresses, building_names, threshold=70):
             extracted_names.append(verify_building_name)
 
     return extracted_names
+
+
+# Placing extraced building names in the normalized dataframe
+def correction(df_normalized, ticketnumbers, buildingnames):
+    
+    for ticket, bname in zip(ticketnumbers, buildingnames):
+        
+        if bname != 'None':        
+            idx = df_normalized[df_normalized['Ticket #'] == ticket].index[0]
+            
+            if df_normalized.at[idx, 'Building Name'] == "None":
+                df_normalized.at[idx, 'Building Name'] = bname
+            else:
+                if df_normalized.at[idx, 'Building #'] == "None":
+                    df_normalized.at[idx, 'Building #'] = df_normalized.at[idx, 'Building Name']
+                else:
+                    df_normalized.at[idx, 'Building #'] += " " + df_normalized.at[idx, 'Building Name']
+                df_normalized.at[idx, 'Building Name'] = bname
+
+    return df_normalized
