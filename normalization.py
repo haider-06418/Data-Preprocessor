@@ -271,6 +271,9 @@ normalized_df = building_extraction.building_name_extraction_pipeline(df, addres
 print('****** BUILDING EXTRACTION DONE ******\n')
 
 
+# Renaming columns
+normalized_df.rename(columns={'Area & Sub Area': 'Sub Area', 'Neighbourhood': 'Area'}, inplace=True)
+
 # storing processed data
 
 # address_df.to_csv(fname_normalized, index=False)
