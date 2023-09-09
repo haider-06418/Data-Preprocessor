@@ -1,4 +1,4 @@
-# Functions for Building Name Extraction: Extracting Building Names using an automated learning corpus
+# Functions for Building Name Extraction: Extracting Building Names using a corpus
 
 
 # imports
@@ -24,8 +24,7 @@ def preparing_extraction(address_df, normalized_df):
     lst_addresses = normalized_df[normalized_df['Building Name'] == 'None']['Address'].tolist()
     lst_ticketnumbers = normalized_df[normalized_df['Building Name'] == 'None']['Ticket #'].tolist()
     
-    
-    buildings_corpus_lst = data_preprocessor.load_corpus('data/buildings/directory/buildings_directory.txt')
+    buildings_corpus_lst = data_preprocessor.load_corpus('data/reference_data/buildings_directory.txt')
     
     building_names_df = normalized_df[(normalized_df['Building Name'] != 'None') & (normalized_df['Type'] == 'apartment')]
     building_names_df.loc[:, 'Building Name'] = building_names_df['Building Name'].apply(refine_building_names)
