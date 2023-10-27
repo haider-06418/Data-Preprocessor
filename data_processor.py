@@ -157,12 +157,12 @@ def analyze(df, df_normalized, fname, fname_normalized):
     missing_appartmentno = df_normalized.loc[df_normalized['Type'] == 'apartment', 'Apartment #'].isna().sum()
     missing_buildingname = df_normalized.loc[df_normalized['Type'] == 'apartment', 'Building Name'].isna().sum()
 
-    buildingname_bias = calculate_bias(df)
-    missing_buildingname = missing_buildingname - buildingname_bias
+    # buildingname_bias = calculate_bias(df)
+    # missing_buildingname = missing_buildingname - buildingname_bias
 
     type_counts = df_normalized['Type'].value_counts()
-    total_houses = type_counts['house']
-    total_appartments = type_counts['apartment']
+    total_houses = type_counts.get('house', 0)
+    total_appartments = type_counts.get('apartment', 0)
 
     total_incorrect_normalized = missing_houseno + missing_appartmentno + missing_buildingname
 
