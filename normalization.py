@@ -29,7 +29,7 @@ abbreviations = data_preprocessor.load_json("abbreviations.json")
 # USER DEFINED
 columns = ['Ticket #', 'Type', 'House #', 'Apartment #', 'Building #', 'Building Name', 'Street', 'Road', 'Area & Sub Area', 'Neighbourhood', 'City'] 
 df = data_preprocessor.load_corpus(fname, pandas = True, header = True)
-df = df.drop(columns=columns_to_drop, axis=1) 
+# df = df.drop(columns=columns_to_drop, axis=1) 
 
 
 # creating test data to normalize
@@ -77,18 +77,8 @@ def parse(dataframe):
 
         ''' City '''
         data['City'].append(tokenized_address.pop(-1).strip())
-
-        ''' Neighbourhood '''
-        data['Neighbourhood'].append(tokenized_address.pop(-1).strip())
-
-
-        ''' Layer 1 Field Seperation Checks'''
-        layer1_tokenized_address = fields_seperation.layer1checks(tokenized_address, data)
-
-        if layer1_tokenized_address is not None:
-            tokenized_address = layer1_tokenized_address
-
-
+        
+        
         ''' Road '''
         road_index = data_processor.field_finder('road', tokenized_address)
         if road_index is not None:
@@ -102,6 +92,32 @@ def parse(dataframe):
             value_lst = data['Road']
             joined_string = ', '.join(value_lst)
             data['Road'] = [joined_string.strip()]
+            
+
+        ''' Neighbourhood '''
+        data['Neighbourhood'].append(tokenized_address.pop(-1).strip())
+
+
+        ''' Layer 1 Field Seperation Checks'''
+        layer1_tokenized_address = fields_seperation.layer1checks(tokenized_address, data)
+
+        if layer1_tokenized_address is not None:
+            tokenized_address = layer1_tokenized_address
+
+
+        # ''' Road '''
+        # road_index = data_processor.field_finder('road', tokenized_address)
+        # if road_index is not None:
+        #     data['Road'].append(tokenized_address.pop(road_index).strip())
+        # else:
+        #     data['Road'].append('None')
+        
+        # road_index = data_processor.field_finder('road', tokenized_address)
+        # if road_index is not None:
+        #     data['Road'].append(tokenized_address.pop(road_index).strip())
+        #     value_lst = data['Road']
+        #     joined_string = ', '.join(value_lst)
+        #     data['Road'] = [joined_string.strip()]
 
 
         ''' Street '''
