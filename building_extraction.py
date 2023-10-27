@@ -3,6 +3,7 @@
 
 # imports
 import re
+import pandas as pd
 from fuzzywuzzy import process, fuzz
 import data_preprocessor
 import data_processor
@@ -73,26 +74,27 @@ def extract_building_names(addresses, building_names, threshold=70):
 
 
 # Placing extraced building names in the normalized dataframe
-def correction(df_normalized, ticketnumbers, buildingnames):
-    
-    for ticket, bname in zip(ticketnumbers, buildingnames):
-        
-        if bname != 'None':        
-            idx = df_normalized[df_normalized['Ticket #'] == ticket].index[0]
-            
-            if df_normalized.at[idx, 'Type'] == 'house':
-                df_normalized.at[idx, 'Type'] = 'apartment'
-            
-            if df_normalized.at[idx, 'Building Name'] == "None":
-                df_normalized.at[idx, 'Building Name'] = bname
-            else:
-                if df_normalized.at[idx, 'Building #'] == "None":
-                    df_normalized.at[idx, 'Building #'] = df_normalized.at[idx, 'Building Name']
-                else:
-                    df_normalized.at[idx, 'Building #'] += " " + df_normalized.at[idx, 'Building Name']
-                df_normalized.at[idx, 'Building Name'] = bname
+def correction(df, ticketnumbers, building_names):
+    if len(ticketnumbers) != len(building_names):
+        raise ValueError("Both ticketnumbers and building_names should have the same length")
 
-    return df_normalized
+    for ticket, building in zip(ticketnumbers, building_names):
+        if building != "None":
+            row = df[df['Ticket #'] == ticket]
+            
+            if row['Type'].values[0] == 'house':
+                df.loc[df['Ticket #'] == ticket, 'Type'] = 'apartment'
+    
+            if row['Building Name'].values[0] == "None":
+                df.loc[df['Ticket #'] == ticket, 'Building Name'] = building
+                
+            else:
+                if row['Building #'].values[0] == "None":
+                    df.loc[df['Ticket #'] == ticket, 'Building #'] = row['Building Name'].values[0]
+                    
+                df.loc[df['Ticket #'] == ticket, 'Building Name'] = building
+                
+    return df
 
 
 # Building Name Extraction Pipeline
