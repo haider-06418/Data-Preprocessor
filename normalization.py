@@ -32,6 +32,7 @@ df_raw = data_preprocessor.load_corpus(fname, pandas = True, header = True)
 df_1 = df_raw.dropna(how='all')
 df_2 = df_1.dropna(axis=1, how='all')
 df = df_2.dropna(how='any')
+df.rename(columns={'ticket #': 'ticket#'}, inplace=True)
 # df = df.fillna('Information not found')
 # df = df.drop(columns=columns_to_drop, axis=1)
 
