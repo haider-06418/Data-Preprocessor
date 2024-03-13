@@ -28,8 +28,12 @@ abbreviations = data_preprocessor.load_json("abbreviations.json")
 
 # USER DEFINED
 columns = ['Ticket #', 'Type', 'House #', 'Apartment #', 'Building #', 'Building Name', 'Street', 'Road', 'Area & Sub Area', 'Neighbourhood', 'City'] 
-df = data_preprocessor.load_corpus(fname, pandas = True, header = True)
-# df = df.drop(columns=columns_to_drop, axis=1) 
+df_raw = data_preprocessor.load_corpus(fname, pandas = True, header = True)
+df_1 = df_raw.dropna(how='all')
+df_2 = df_1.dropna(axis=1, how='all')
+df = df_2.dropna(how='any')
+# df = df.fillna('Information not found')
+# df = df.drop(columns=columns_to_drop, axis=1)
 
 
 # creating test data to normalize
